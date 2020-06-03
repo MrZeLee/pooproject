@@ -3,7 +3,7 @@ package Parser;
 import java.util.List;
 
 import Base.*;
-import Basic.*;
+//import Basic.*;
 import Base.Encomenda.Encomenda;
 import Users.*;
 
@@ -66,19 +66,19 @@ public class Logparser {
     }
 
     public Voluntario parseVoluntario(String input){
-        //finalizar
+        String[] campos = input.split(",");
     }
 
     public Encomenda parseEncomenda(String input){
-        //finalizar
+        String[] campos = input.split(",");
     }
 
     public Transportadora parseTransportadora(String input){
-        //finalizar
+        String[] campos = input.split(",");
     }
 
     public Aceite parseAceite(String input){
-        //finalizar
+        String[] campos = input.split(",");
     }
 
 

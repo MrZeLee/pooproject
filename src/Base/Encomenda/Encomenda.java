@@ -1,14 +1,14 @@
 package Base.Encomenda;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Objects;
 
 /**
  * Encomenda
  */
 
-//Encomenda:<CodEncomenda>, <CodUtilizador>, <CodLoja>, <Peso>, <LinhaEncomenda>+
-public class Encomenda{
+public class Encomenda implements Comparator<Encomenda> {
     private String codEncomenda;
     private String codUtilizador;
     private String codLoja;
@@ -157,5 +157,10 @@ public class Encomenda{
         for(LinhaEncomenda i : this.lista) {
             if (i.getReferencia() == codProd) this.lista.remove(i);
         }
+    }
+
+    @Override
+    public int compare(Encomenda o1, Encomenda o2) {
+        return o1.codEncomenda.compareTo(o2.codEncomenda);
     }
 }
