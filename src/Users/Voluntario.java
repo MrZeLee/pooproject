@@ -1,8 +1,13 @@
+package Users;
+import Base.Basic.Coordenadas;
+
 public class Voluntario {
-private String nome;
-private String codVoluntario;
-private Coordenadas gps;
-private int raio;
+    private String nome;
+    private String codVoluntario;
+    private Coordenadas gps;
+    private double raio;
+    private boolean livre;
+    private double rating;
 
     /**
      * Construtor parametrizado
@@ -11,7 +16,7 @@ private int raio;
      * @param gps
      * @param raio
      */
-    public Voluntario(String nome, String codVoluntario, Coordenadas gps, int raio) {
+    public Voluntario(String nome, String codVoluntario, Coordenadas gps, double raio) {
         this.nome = nome;
         this.codVoluntario = codVoluntario;
         this.gps = gps.clone();
@@ -67,12 +72,32 @@ private int raio;
         this.gps = gps.clone();
     }
 
-    public int getRaio() {
+    public double getRaio() {
         return this.raio;
     }
 
-    public void setRaio(int raio) {
+    public void setRaio(double raio) {
         this.raio = raio;
+    }
+
+    public boolean isLivre() {
+        return this.livre;
+    }
+
+    public boolean getLivre() {
+        return this.livre;
+    }
+
+    public void setLivre(boolean livre) {
+        this.livre = livre;
+    }
+
+    public double getRating() {
+        return this.rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 
     /**
@@ -112,4 +137,10 @@ private int raio;
                 ", raio=" + raio +
                 '}';
     }
+
+    @Override
+    public Voluntario clone() {
+        return new Voluntario(this);
+    }
+
 }

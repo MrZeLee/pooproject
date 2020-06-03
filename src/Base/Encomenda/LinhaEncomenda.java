@@ -1,3 +1,5 @@
+package Base.Encomenda;
+
 public class LinhaEncomenda {
     private String referencia;
     private String descricao;

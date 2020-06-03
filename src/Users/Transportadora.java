@@ -1,24 +1,31 @@
+package Users;
+
 import java.util.Objects;
 
+import Base.Basic.Coordenadas;
+
 public class Transportadora {
+    private boolean on;
     private String codEmpresa;
     private String nomeEmpresa;
     private Coordenadas gps;
     private int nif;
-    private int raio;
-    private double ppk;
+    private double raio;
+    private double priceKm;
 
     public Transportadora() {
     }
 
-    public Transportadora(String codEmpresa, String nomeEmpresa, Coordenadas gps, int nif, int raio, double ppk) {
+    public Transportadora(boolean on, String codEmpresa, String nomeEmpresa, Coordenadas gps, int nif, double raio, double priceKm) {
+        this.on = on;
         this.codEmpresa = codEmpresa;
         this.nomeEmpresa = nomeEmpresa;
         this.gps = gps.clone();
         this.nif = nif;
         this.raio = raio;
-        this.ppk = ppk;
+        this.priceKm = priceKm;
     }
+
 
     public Transportadora(Transportadora x) {
         this.codEmpresa = x.getCodEmpresa();
@@ -26,7 +33,21 @@ public class Transportadora {
         this.gps = x.getGps();
         this.nif = x.getNif();
         this.raio = x.getRaio();
-        this.ppk = x.getPpk();
+        this.priceKm = x.getpriceKm();
+        this.on = x.getOn();
+    }
+
+    
+    public void setOn(boolean on) {
+        this.on = on;
+    }
+
+    public boolean isOn() {
+        return this.on;
+    }
+
+    public boolean getOn() {
+        return this.on;
     }
 
     public String getCodEmpresa() {
@@ -61,20 +82,20 @@ public class Transportadora {
         this.nif = nif;
     }
 
-    public int getRaio() {
+    public double getRaio() {
         return this.raio;
     }
 
-    public void setRaio(int raio) {
+    public void setRaio(double raio) {
         this.raio = raio;
     }
 
-    public double getPpk() {
-        return this.ppk;
+    public double getpriceKm() {
+        return this.priceKm;
     }
 
-    public void setPpk(double ppk) {
-        this.ppk = ppk;
+    public void setpriceKm(double priceKm) {
+        this.priceKm = priceKm;
     }
 
     public Transportadora codEmpresa(String codEmpresa) {
@@ -97,13 +118,13 @@ public class Transportadora {
         return this.clone();
     }
 
-    public Transportadora raio(int raio) {
+    public Transportadora raio(double raio) {
         this.raio = raio;
         return this.clone();
     }
 
-    public Transportadora ppk(double ppk) {
-        this.ppk = ppk;
+    public Transportadora priceKm(double priceKm) {
+        this.priceKm = priceKm;
         return this.clone();
     }
 
@@ -115,12 +136,12 @@ public class Transportadora {
             return false;
         }
         Transportadora transportadora = (Transportadora) o;
-        return Objects.equals(codEmpresa, transportadora.codEmpresa) && Objects.equals(nomeEmpresa, transportadora.nomeEmpresa) && Objects.equals(gps, transportadora.gps) && nif == transportadora.nif && raio == transportadora.raio && ppk == transportadora.ppk;
+        return Objects.equals(codEmpresa, transportadora.codEmpresa) && Objects.equals(nomeEmpresa, transportadora.nomeEmpresa) && Objects.equals(gps, transportadora.gps) && nif == transportadora.nif && raio == transportadora.raio && priceKm == transportadora.priceKm;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(codEmpresa, nomeEmpresa, gps, nif, raio, ppk);
+        return Objects.hash(codEmpresa, nomeEmpresa, gps, nif, raio, priceKm);
     }
 
     @Override
@@ -131,7 +152,7 @@ public class Transportadora {
             ", gps='" + getGps() + "'" +
             ", nif='" + getNif() + "'" +
             ", raio='" + getRaio() + "'" +
-            ", ppk='" + getPpk() + "'" +
+            ", priceKm='" + getpriceKm() + "'" +
             "}";
     }
 

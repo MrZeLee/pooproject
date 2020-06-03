@@ -1,9 +1,15 @@
+package Users;
+
 import java.util.Objects;
+
+import Base.Basic.Coordenadas;
 
 public class Loja {
     private String codLoja;
     private String nomeLoja;
     private Coordenadas gps;
+    private int queue;
+
 
     public Loja() {
     }
@@ -52,14 +58,12 @@ public class Loja {
         return this;
     }
 
-    public Loja nomeLoja(String nomeLoja) {
-        this.nomeLoja = nomeLoja;
-        return this;
+    public int getQueue() {
+        return this.queue;
     }
 
-    public Loja gps(Coordenadas gps) {
-        this.gps = gps.clone();
-        return this;
+    public void setQueue(int queue) {
+        this.queue = queue;
     }
 
     @Override

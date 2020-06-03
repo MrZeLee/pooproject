@@ -1,6 +1,13 @@
-public class Utilizador{
-private String codUtilizador;
-private Coordenadas gps;
+package Users;
+
+import Base.Basic.Coordenadas;
+
+public class Utilizador {
+    private String codUtilizador;
+    private String email;
+    private String password;
+    private Coordenadas gps;
+
 
     /**
      * Construtor parametrizado
@@ -49,6 +56,22 @@ private Coordenadas gps;
         this.gps = gps.clone();
     }
 
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 
     /**
      * Equals
@@ -82,4 +105,10 @@ private Coordenadas gps;
                 ", gps=" + gps +
                 '}';
     }
+
+    public Utilizador clone() {
+        return new Utilizador(this);
+    }
+
+
 }

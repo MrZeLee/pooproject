@@ -1,4 +1,9 @@
+package Base.Basic;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Coordenadas {
     private double latitude;
@@ -70,5 +75,43 @@ public class Coordenadas {
 
     public Coordenadas clone(){
         return new Coordenadas(this);
+    }
+
+    public double distance(Coordenadas c) {
+        double x = this.latitude - c.latitude;
+        double y = this.longitude - c.longitude;
+        return Math.sqrt(Math.pow(x,2) + Math.pow(y,2));
+    }
+
+    public List<Double> distance(List<Coordenadas> cs) {
+        List<Double> ret = new ArrayList<>();
+        for (Coordenadas c : cs) {
+            ret.add(this.distance(c));
+        }
+        return ret;
+    }
+
+    public double distanceSequencial(List<Coordenadas> cs) {
+        double ret = 0.0;
+        Coordenadas buf = this;
+        for (Coordenadas c : cs) {
+            ret += buf.distance(c);
+            buf = c;
+        }
+        return ret;
+    }
+
+    public double distanceSequencial(Set<Coordenadas> cs) {
+        double ret = 0.0;
+        Coordenadas buf = this;
+        for (Coordenadas c : cs) {
+            ret += buf.distance(c);
+            buf = c;
+        }
+        return ret;
+    }
+
+    public boolean isNextTo(Coordenadas c, double raio) {
+        return (this.distance(c) > raio ? false : true);
     }
 }

@@ -1,12 +1,14 @@
-import java.util.ArrayList;
+package Base.Basic;
+
+import java.util.TreeSet;
 
 public class Aceite {
-    ArrayList<String> codEncomenda;
+    TreeSet<String> codEncomenda;
 
     public Aceite() {
     }
 
-    public Aceite(ArrayList<String> codEncomenda) {
+    public Aceite(TreeSet<String> codEncomenda) {
         this.setCodEncomenda(codEncomenda);
     }
 
@@ -14,23 +16,23 @@ public class Aceite {
         this.codEncomenda = x.getCodEncomenda();
     }
 
-    public ArrayList<String> getCodEncomenda() {
-        ArrayList<String> ret = new ArrayList<>();
+    public TreeSet<String> getCodEncomenda() {
+        TreeSet<String> ret = new TreeSet<>();
         for (String string : this.codEncomenda) {
             ret.add(string);
         }
         return ret;
     }
 
-    public void setCodEncomenda(ArrayList<String> codEncomenda) {
-        ArrayList<String> ret = new ArrayList<>();
+    public void setCodEncomenda(TreeSet<String> codEncomenda) {
+        TreeSet<String> ret = new TreeSet<>();
         for (String string : codEncomenda) {
             ret.add(string);
         }
         this.codEncomenda = ret;
     }
 
-    public Aceite codEncomenda(ArrayList<String> codEncomenda) {
+    public Aceite codEncomenda(TreeSet<String> codEncomenda) {
         this.codEncomenda = codEncomenda;
         return this;
     }
