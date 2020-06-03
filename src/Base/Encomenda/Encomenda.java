@@ -1,84 +1,70 @@
 package Base.Encomenda;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Encomenda
  */
-public class Encomenda{
-    private String nome;
-    private int NIF;
-    private String morada;
-    private int code;
-    private LocalDate data;
-    private ArrayList<LinhaEncomenda> lista;
 
+//Encomenda:<CodEncomenda>, <CodUtilizador>, <CodLoja>, <Peso>, <LinhaEncomenda>+
+public class Encomenda{
+    private String codEncomenda;
+    private String codUtilizador;
+    private String codLoja;
+    private double peso;
+    private ArrayList<LinhaEncomenda> lista;
+    //private Coordenadas gps;
+    
 
     public Encomenda() {
     }
 
-    public Encomenda(Encomenda a) {
-        this.nome = a.getNome();
-        this.NIF = a.getNIF();
-        this.morada = a.getMorada();
-        this.code = a.getCode();
-        this.data = a.getData();
-        this.lista = a.getLista();
+    public Encomenda(String codEncomenda, String codUtilizador, String codLoja, double peso, ArrayList<LinhaEncomenda> lista) {
+        this.codEncomenda = codEncomenda;
+        this.codUtilizador = codUtilizador;
+        this.codLoja = codLoja;
+        this.peso = peso;
+        this.lista = new ArrayList<LinhaEncomenda>();
+        for (LinhaEncomenda linhaEncomenda : lista) {
+            this.lista.add(linhaEncomenda);
+        }
     }
 
-    public Encomenda(String nome, int NIF, String morada, int code, LocalDate data, ArrayList<LinhaEncomenda> lista) {
-        this.nome = nome;
-        this.NIF = NIF;
-        this.morada = morada;
-        this.code = code;
-        this.data = data;
-        this.lista = lista;
+    public Encomenda(Encomenda x) {
+        this(x.codEncomenda,x.codUtilizador,x.codLoja,x.peso,x.lista);
     }
 
-    public Encomenda clone() 
-    {
-        return new Encomenda(this);
+    public String getCodEncomenda() {
+        return this.codEncomenda;
     }
 
-    public String getNome() {
-        return this.nome;
+    public void setCodEncomenda(String codEncomenda) {
+        this.codEncomenda = codEncomenda;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public String getCodUtilizador() {
+        return this.codUtilizador;
     }
 
-    public int getNIF() {
-        return this.NIF;
+    public void setCodUtilizador(String codUtilizador) {
+        this.codUtilizador = codUtilizador;
     }
 
-    public void setNIF(int NIF) {
-        this.NIF = NIF;
+    public String getCodLoja() {
+        return this.codLoja;
     }
 
-    public String getMorada() {
-        return this.morada;
+    public void setCodLoja(String codLoja) {
+        this.codLoja = codLoja;
     }
 
-    public void setMorada(String morada) {
-        this.morada = morada;
+    public double getPeso() {
+        return this.peso;
     }
 
-    public int getCode() {
-        return this.code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public LocalDate getData() {
-        return this.data;
-    }
-
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void setPeso(double peso) {
+        this.peso = peso;
     }
 
     public ArrayList<LinhaEncomenda> getLista() {
@@ -92,7 +78,42 @@ public class Encomenda{
     }
 
     public void setLista(ArrayList<LinhaEncomenda> lista) {
-        this.lista = lista;
+        this.lista.clear();
+        for (LinhaEncomenda linhaEncomenda : lista) {
+            this.lista.add(linhaEncomenda);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Encomenda)) {
+            return false;
+        }
+        Encomenda encomenda = (Encomenda) o;
+        return Objects.equals(codEncomenda, encomenda.codEncomenda) && Objects.equals(codUtilizador, encomenda.codUtilizador) && Objects.equals(codLoja, encomenda.codLoja) && peso == encomenda.peso && Objects.equals(lista, encomenda.lista);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codEncomenda, codUtilizador, codLoja, peso, lista);
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " codEncomenda='" + getCodEncomenda() + "'" +
+            ", codUtilizador='" + getCodUtilizador() + "'" +
+            ", codLoja='" + getCodLoja() + "'" +
+            ", peso='" + getPeso() + "'" +
+            ", lista='" + getLista() + "'" +
+            "}";
+    }
+
+    public Encomenda clone() 
+    {
+        return new Encomenda(this);
     }
 
     public double calculaValorTotal() {

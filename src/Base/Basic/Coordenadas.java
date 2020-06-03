@@ -114,4 +114,4 @@ public class Coordenadas {
     public boolean isNextTo(Coordenadas c, double raio) {
         return (this.distance(c) > raio ? false : true);
     }
-}
+} 

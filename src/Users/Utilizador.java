@@ -1,45 +1,31 @@
 package Users;
 
+import java.util.Objects;
+
 import Base.Basic.Coordenadas;
 
 public class Utilizador {
     private String codUtilizador;
+    private String nome;
     private String email;
     private String password;
     private Coordenadas gps;
 
+    public Utilizador() {
+    }
 
-    /**
-     * Construtor parametrizado
-     * @param codUtilizador
-     * @param gps
-     */
-    public Utilizador(String codUtilizador, Coordenadas gps) {
+    public Utilizador(String codUtilizador, String nome, String email, String password, Coordenadas gps) {
         this.codUtilizador = codUtilizador;
+        this.nome = nome;
+        this.email = email;
+        this.password = password;
         this.gps = gps.clone();
     }
 
-    /**
-     * Contrutor vazio
-     */
-    public Utilizador(){
-        this.codUtilizador = new String();
-        this.gps = new Coordenadas();
+    public Utilizador(Utilizador x) {
+        this(x.codUtilizador,x.nome,x.email,x.password,x.gps);
     }
 
-    /**
-     * Contrutor por cópia
-     * @param v
-     */
-    public Utilizador(Utilizador u){
-        this.codUtilizador = u.getCodUtilizador();
-        this.gps = u.getGps();
-    }
-
-
-    /**
-     * Getters e Setters
-     */
     public String getCodUtilizador() {
         return this.codUtilizador;
     }
@@ -48,12 +34,12 @@ public class Utilizador {
         this.codUtilizador = codUtilizador;
     }
 
-    public Coordenadas getGps() {
-        return this.gps.clone();
+    public String getNome() {
+        return this.nome;
     }
 
-    public void setGps(Coordenadas gps) {
-        this.gps = gps.clone();
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getEmail() {
@@ -72,39 +58,42 @@ public class Utilizador {
         this.password = password;
     }
 
-
-    /**
-     * Equals
-     * @param object
-     * @return
-     */
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (!(object instanceof Utilizador)) return false;
-        if (!super.equals(object)) return false;
-        Utilizador that = (Utilizador) object;
-        return getCodUtilizador().equals(that.getCodUtilizador()) &&
-                getGps().equals(that.getGps());
+    public Coordenadas getGps() {
+        return this.gps;
     }
 
-    /**
-     * hashCode
-     * @return
-     */
+    public void setGps(Coordenadas gps) {
+        this.gps = gps;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Utilizador)) {
+            return false;
+        }
+        Utilizador utilizador = (Utilizador) o;
+        return Objects.equals(codUtilizador, utilizador.codUtilizador) && Objects.equals(nome, utilizador.nome) && Objects.equals(email, utilizador.email) && Objects.equals(password, utilizador.password) && Objects.equals(gps, utilizador.gps);
+    }
+
+    @Override
     public int hashCode() {
-        return java.util.Objects.hash(super.hashCode(), getCodUtilizador(), getGps());
+        return Objects.hash(codUtilizador, nome, email, password, gps);
     }
 
-    /**
-     * toString
-     */
-    @java.lang.Override
-    public java.lang.String toString() {
-        return "Utilizador{" +
-                "codUtilizador='" + codUtilizador + '\'' +
-                ", gps=" + gps +
-                '}';
+    @Override
+    public String toString() {
+        return "{" +
+            " codUtilizador='" + getCodUtilizador() + "'" +
+            ", nome='" + getNome() + "'" +
+            ", email='" + getEmail() + "'" +
+            ", password='" + getPassword() + "'" +
+            ", gps='" + getGps() + "'" +
+            "}";
     }
+
+
 
     public Utilizador clone() {
         return new Utilizador(this);

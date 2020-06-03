@@ -1,11 +1,15 @@
 package Users;
+
+import java.util.Objects;
+
 import Base.Basic.Coordenadas;
 
 public class Voluntario {
-    private String nome;
     private String codVoluntario;
+    private String nome;
     private Coordenadas gps;
     private double raio;
+
     private boolean livre;
     private double rating;
 
@@ -100,47 +104,43 @@ public class Voluntario {
         this.rating = rating;
     }
 
-    /**
-     * Equals
-     * @param object
-     * @return
-     */
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (!(object instanceof Voluntario)) return false;
-        if (!super.equals(object)) return false;
-        Voluntario that = (Voluntario) object;
-        return getRaio() == that.getRaio() &&
-                getNome().equals(that.getNome()) &&
-                getCodVoluntario().equals(that.getCodVoluntario()) &&
-                getGps().equals(that.getGps());
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Voluntario)) {
+            return false;
+        }
+        Voluntario voluntario = (Voluntario) o;
+        return Objects.equals(codVoluntario, voluntario.codVoluntario) && Objects.equals(nome, voluntario.nome) && Objects.equals(gps, voluntario.gps) && raio == voluntario.raio && livre == voluntario.livre && rating == voluntario.rating;
     }
 
-    /**
-     * hashCode
-     * @return
-     */
+    @Override
     public int hashCode() {
-        return java.util.Objects.hash(super.hashCode(), getNome(), getCodVoluntario(), getGps(), getRaio());
+        return Objects.hash(codVoluntario, nome, gps, raio, livre, rating);
     }
 
-    /**
-     * toString
-     * @return
-     */
-    @java.lang.Override
-    public java.lang.String toString() {
-        return "Voluntario{" +
-                "nome='" + nome + '\'' +
-                ", codVoluntario='" + codVoluntario + '\'' +
-                ", gps=" + gps +
-                ", raio=" + raio +
-                '}';
+
+    @Override
+    public String toString() {
+        return "{" +
+            " codVoluntario='" + getCodVoluntario() + "'" +
+            ", nome='" + getNome() + "'" +
+            ", gps='" + getGps() + "'" +
+            ", raio='" + getRaio() + "'" +
+            ", livre='" + isLivre() + "'" +
+            ", rating='" + getRating() + "'" +
+            "}";
     }
 
     @Override
     public Voluntario clone() {
         return new Voluntario(this);
+    }
+
+    public boolean isNextTo(Loja l, Utilizador u) {
+        return this.gps.isNextTo(l.getGps(), this.raio) && this.gps.isNextTo(u.getGps(), this.raio);
     }
 
 }
