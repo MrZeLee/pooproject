@@ -124,13 +124,13 @@ public class Encomenda implements Comparator<Encomenda> {
         return total;
     }
 
-    public double calcularValorDesconto() {
-        double total = 0;
-        for(LinhaEncomenda i : this.lista) {
-            total += i.calculaValorDesconto();
-        }
-        return total;
-    }
+    // public double calcularValorDesconto() {
+    //     double total = 0;
+    //     for(LinhaEncomenda i : this.lista) {
+    //         total += i.calculaValorDesconto();
+    //     }
+    //     return total;
+    // }
 
     public int numeroTotalProdutos() {
         int total = 0;
@@ -142,7 +142,7 @@ public class Encomenda implements Comparator<Encomenda> {
 
     public boolean existeProdutoEncomenda(String refProduto) {
         for(LinhaEncomenda i : this.lista) {
-            if(i.getReferencia() == refProduto){
+            if(i.getCodProduto() == refProduto){
                 return true;
             }
         }
@@ -155,7 +155,7 @@ public class Encomenda implements Comparator<Encomenda> {
 
     public void removeProduto(String codProd) {
         for(LinhaEncomenda i : this.lista) {
-            if (i.getReferencia() == codProd) this.lista.remove(i);
+            if (i.getCodProduto() == codProd) this.lista.remove(i);
         }
     }
 

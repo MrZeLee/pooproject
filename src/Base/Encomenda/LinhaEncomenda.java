@@ -1,66 +1,47 @@
 package Base.Encomenda;
 
 public class LinhaEncomenda {
-    private String referencia;
+    private String codProduto;
     private String descricao;
-    private double preco;
-    private int quantidade;
-    private double imposto;
-    private double desconto;
+    private double quantidade;
+    private double valorUnitario;
+
     
     public LinhaEncomenda() {
-        this.referencia = "n/a";
+        this.codProduto = "n/a";
         this.descricao = "n/a";
-        this.preco = 0;
         this.quantidade = 0;
-        this.imposto = 0;
-        this.desconto = 0;
+        this.valorUnitario = 0;
     }
     
-    public LinhaEncomenda(String referencia, String descricao, double preco,
-        int quantidade, double imposto, double desconto) {
-        this.referencia = referencia;
+    public LinhaEncomenda(String codProduto, String descricao, int quantidade, double valorUnitario) {
+        this.codProduto = codProduto;
         this.descricao = descricao;
-        this.preco = preco;
         this.quantidade = quantidade;
-        this.imposto = imposto;
-        this.desconto = desconto;
+        this.valorUnitario = valorUnitario;
     }
     
     public LinhaEncomenda(LinhaEncomenda linha) {
-        this.referencia = linha.getReferencia();
+        this.codProduto = linha.getCodProduto();
         this.descricao = linha.getDescricao();
-        this.preco = linha.getPreco();
+        this.valorUnitario = linha.getValorUnitario();
         this.quantidade = linha.getQuantidade();
-        this.imposto = linha.getImposto();
-        this.desconto = linha.getDesconto();
     }
     
     /**
      * B)
      */
     public double calculaValorLinhaEnc() {
-        double valor = this.quantidade * this.preco;
-        valor -= valor*this.desconto;
-        valor *= 1+this.imposto;
+        double valor = this.quantidade * this.valorUnitario;
         return valor;
     }
     
-    /**
-     * C)
-     */
-    public double calculaValorDesconto() {
-        double valor = this.quantidade * this.preco;
-        valor *= this.imposto; //e.g. imposto = 1.06
-        return this.calculaValorLinhaEnc()-valor;
-    }  
-    
-    public String getReferencia() {
-        return this.referencia;
+    public String getCodProduto() {
+        return this.codProduto;
     }
     
-    public void setReferencia(String referencia) {
-        this.referencia = referencia;
+    public void setCodProduto(String codProduto) {
+        this.codProduto = codProduto;
     }
 
     public String getDescricao() {
@@ -71,36 +52,20 @@ public class LinhaEncomenda {
         this.descricao = descricao;
     }
 
-    public double getPreco() {
-        return this.preco;
+    public Double getValorUnitario() {
+        return this.valorUnitario;
     }
 
-    public void setPreco(double preco) {
-        this.preco = preco;
+    public void setValorUnitario(double valorUnitario) {
+        this.valorUnitario = valorUnitario;
     }
 
-    public int getQuantidade() {
+    public Double getQuantidade() {
         return this.quantidade;
     }
 
-    public void setQuantidade(int quantidade) {
+    public void setQuantidade(Double quantidade) {
         this.quantidade = quantidade;
-    }
-
-    public double getImposto() {
-        return this.imposto;
-    }
-
-    public void setImposto(double imposto) {
-        this.imposto = imposto;
-    }
-
-    public double getDesconto() {
-        return this.desconto;
-    }
-
-    public void setDesconto(double desconto) {
-        this.desconto = desconto;
     }
 
     public LinhaEncomenda clone() {
@@ -111,14 +76,14 @@ public class LinhaEncomenda {
         if(obj==this) return true;
         if(obj==null || obj.getClass() != this.getClass()) return false;
         LinhaEncomenda le = (LinhaEncomenda) obj;
-        return le.getReferencia().equals(this.referencia) &&
+        return le.getCodProduto().equals(this.codProduto) &&
                 le.getDescricao().equals(this.descricao) && 
-                le.getPreco() == this.preco;
+                le.getValorUnitario() == this.valorUnitario;
     }
     
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Referencia: ").append(this.referencia);
+        sb.append("Código de Produto: ").append(this.codProduto);
         //..
         return sb.toString();
     }            

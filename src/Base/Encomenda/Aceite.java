@@ -1,14 +1,13 @@
 package Base.Encomenda;
 
-import java.util.TreeSet;
 
 public class Aceite {
-    TreeSet<String> codEncomenda;
+    String codEncomenda;
 
     public Aceite() {
     }
 
-    public Aceite(TreeSet<String> codEncomenda) {
+    public Aceite(String codEncomenda) {
         this.setCodEncomenda(codEncomenda);
     }
 
@@ -16,23 +15,15 @@ public class Aceite {
         this.codEncomenda = x.getCodEncomenda();
     }
 
-    public TreeSet<String> getCodEncomenda() {
-        TreeSet<String> ret = new TreeSet<>();
-        for (String string : this.codEncomenda) {
-            ret.add(string);
-        }
-        return ret;
+    public String getCodEncomenda() {
+        return this.codEncomenda;
     }
 
-    public void setCodEncomenda(TreeSet<String> codEncomenda) {
-        TreeSet<String> ret = new TreeSet<>();
-        for (String string : codEncomenda) {
-            ret.add(string);
-        }
-        this.codEncomenda = ret;
+    public void setCodEncomenda(String codEncomenda) {
+        this.codEncomenda = codEncomenda;
     }
 
-    public Aceite codEncomenda(TreeSet<String> codEncomenda) {
+    public Aceite codEncomenda(String codEncomenda) {
         this.codEncomenda = codEncomenda;
         return this;
     }
@@ -56,7 +47,7 @@ public class Aceite {
     @Override
     public String toString() {
         return "{" +
-            " codEncomenda='" + getCodEncomenda().toString() + "'" +
+            " codEncomenda='" + getCodEncomenda() + "'" +
             "}";
     }
 }
