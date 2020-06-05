@@ -32,7 +32,7 @@ public class Menu {
     }
 
     public int lerOpcao() {
-        int op; 
+        //int op; 
         Scanner is = new Scanner(System.in);
         
         System.out.print("Opção: ");

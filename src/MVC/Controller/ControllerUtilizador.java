@@ -6,7 +6,9 @@ import MVC.Model.Model;
 public class ControllerUtilizador extends Controller{
 
     private final String[] s2 = {"Test", "Test", "Test"};
+    private final String[] menuLogin ={"Insira Nome de Utilizador", "Insira Palavra-Passe"};
     private final Menu m2 = new Menu(s2);
+    private final Menu mL = new Menu(menuLogin);
 
     public ControllerUtilizador(Model model){
         super(model);
@@ -15,10 +17,13 @@ public class ControllerUtilizador extends Controller{
     @Override
     protected void update() {
         switch (this.getOption()) {
-            case "1":
-                this.setScreen(m2.toString());
+            case "0":
+                System.out.println("Operation Cancelled");
                 break;
-            default:
+            case "1":
+                this.setScreen(mL.toString());
+                break;
+            case "2":
                 this.setScreen(m2.toString());
                 break;
         }
