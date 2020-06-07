@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Menu {
@@ -21,9 +22,9 @@ public class Menu {
 
     public String toString() {
         StringBuilder ret = new StringBuilder();
-        ret.append("\n *** Menu *** \n");
-        for (int i = 0; i < this.opcoes.size(); i++) {
-            ret.append(i+1);
+        ret.append(String.format("***_%s_***\n", this.opcoes.get(0)));
+        for (int i = 1; i < this.opcoes.size(); i++) {
+            ret.append(i);
             ret.append(" - ");
             ret.append(this.opcoes.get(i) + "\n");
         }
@@ -47,5 +48,20 @@ public class Menu {
             op = -1;
         }
         return op;
+    }
+
+    public String getId() {
+        return this.opcoes.get(0);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Menu)) {
+            return false;
+        }
+        Menu menu = (Menu) o;
+        return Objects.equals(opcoes, menu.opcoes);
     }
 }

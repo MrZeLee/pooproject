@@ -4,6 +4,7 @@ import java.util.EventListener;
 import java.util.Scanner;
 
 import MVC.Controller.Controller;
+import MVC.Controller.Menu.Menu;
 import MVC.Observer.Observable;
 import MVC.Observer.Observer;
 
@@ -24,6 +25,8 @@ public class View extends AbstractAction implements Observer{
     private JFrame frame;
     private JTextArea text;
     private JTextField field;
+
+    private String ID;
 
     public View(Controller controller) {
         controller.addObserver(this);
@@ -52,6 +55,7 @@ public class View extends AbstractAction implements Observer{
 
     public void run() {
         refreshText(this.controller.getScreen());
+        this.ID = this.text.getText().substring(4).split("_")[0];
         refreshPagina();
     }
 
@@ -66,12 +70,25 @@ public class View extends AbstractAction implements Observer{
 
     @Override
     public void update(Observable source, Object value) {
-        refreshText((String) value);
+        if(value.getClass().isAssignableFrom(String.class)) {
+            refreshText((String) value);
+            this.ID = this.text.getText().substring(4).split("_")[0];
+            if(this.ID.equals("quit")) {
+                frame.setVisible(false);
+                frame.dispose();
+                return;
+            }
+        }
+        if(value.getClass().isAssignableFrom(Menu.class)) {
+            this.ID = ((Menu) value).getId();
+            refreshText(value.toString());
+        }
         refreshPagina();
     }
 
     @Override
         public void actionPerformed(ActionEvent e) {
-            controller.update(this.field.getText());
+                String test = this.field.getText();
+                controller.update(String.format("%s-%s", this.ID, test));
         }
 }

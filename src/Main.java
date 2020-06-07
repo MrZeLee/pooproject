@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
         Model model = new Model();
         int option = -1;
-        String[] mainOptions = { "Utilizador", "Loja", "Voluntario", "Transportadora" };
+        String[] mainOptions = { "Menu", "Utilizador", "Loja", "Voluntario", "Transportadora" };
         Menu m = new Menu(mainOptions);
         //Controller controller = null;
 

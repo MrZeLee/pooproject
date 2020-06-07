@@ -1,5 +1,6 @@
 package MVC.Model;
 
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import Base.Encomenda.Encomenda;
@@ -12,7 +13,7 @@ import Users.Voluntario;
 public class Model{
     private TreeSet<Loja> lojas = new TreeSet<Loja>();
     private TreeSet<Transportadora> transportadoras = new TreeSet<Transportadora>();
-    private TreeSet<Utilizador> utilizadores = new TreeSet<Utilizador>();
+    private TreeMap<String,Utilizador> utilizadores = new TreeMap<String,Utilizador>();
     private TreeSet<Voluntario> voluntarios = new TreeSet<Voluntario>();
     private TreeSet<Encomenda> encomendas = new TreeSet<Encomenda>();
 
@@ -25,7 +26,7 @@ public class Model{
     }
 
     public void addUtilizador(Utilizador l) {
-        this.utilizadores.add(l.clone());
+        this.utilizadores.put(l.getEmail(), l.clone());
     }
 
     public void addVoluntario(Voluntario l) {
@@ -34,5 +35,15 @@ public class Model{
 
     public void addEncomendas(Encomenda e) {
         this.encomendas.add(e.clone());
+    }
+
+    //UTILIZADOR
+
+    public boolean contains(String email) {
+        return this.utilizadores.containsKey(email);
+    }
+
+    public boolean password(String utilizador, String password) {
+        return this.utilizadores.get(utilizador).getPassword().equals(password);
     }
 }
