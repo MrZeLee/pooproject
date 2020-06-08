@@ -35,7 +35,7 @@ public class View extends AbstractAction implements Observer{
         this.frame = new JFrame();
 
         this.text = new JTextArea();
-        this.text.setBounds(0, 0, 200, 200);
+        this.text.setBounds(0, 0, 600, 400);
         this.text.setEditable(false);
 
         this.field = new JTextField();

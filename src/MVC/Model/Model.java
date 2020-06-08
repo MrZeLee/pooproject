@@ -3,8 +3,8 @@ package MVC.Model;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import Base.Encomenda.Aceite;
 import Base.Encomenda.Encomenda;
-import MVC.Observer.Observable;
 import Users.Loja;
 import Users.Transportadora;
 import Users.Utilizador;
@@ -15,7 +15,8 @@ public class Model{
     private TreeSet<Transportadora> transportadoras = new TreeSet<Transportadora>();
     private TreeMap<String,Utilizador> utilizadores = new TreeMap<String,Utilizador>();
     private TreeSet<Voluntario> voluntarios = new TreeSet<Voluntario>();
-    private TreeSet<Encomenda> encomendas = new TreeSet<Encomenda>();
+    private TreeMap<String,Encomenda> encomendas = new TreeMap<String,Encomenda>();
+    private TreeSet<Aceite> aceite = new TreeSet<Aceite>();
 
     public void addLoja(Loja l) {
         this.lojas.add(l.clone());
@@ -34,7 +35,11 @@ public class Model{
     }
 
     public void addEncomendas(Encomenda e) {
-        this.encomendas.add(e.clone());
+        this.encomendas.put(e.getCodEncomenda(), e.clone());
+    }
+
+    public void addAceite(Aceite e) {
+        this.aceite.add(e.clone());
     }
 
     //UTILIZADOR

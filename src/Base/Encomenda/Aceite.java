@@ -50,4 +50,8 @@ public class Aceite {
             " codEncomenda='" + getCodEncomenda() + "'" +
             "}";
     }
+
+    public Aceite clone(){
+        return new Aceite(this);
+    }
 }

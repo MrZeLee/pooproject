@@ -1,5 +1,7 @@
 package Users;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import Base.Basic.Coordenadas;
@@ -11,7 +13,7 @@ public class Voluntario {
     private double raio;
 
     private boolean livre;
-    private double rating;
+    private List<Double> rating;
 
     /**
      * Construtor parametrizado
@@ -25,6 +27,8 @@ public class Voluntario {
         this.codVoluntario = codVoluntario;
         this.gps = gps.clone();
         this.raio = raio;
+        this.livre = false;
+        this.rating = new ArrayList<Double>();
     }
 
     /**
@@ -35,6 +39,8 @@ public class Voluntario {
         this.codVoluntario = new String();
         this.gps = new Coordenadas();
         this.raio = 0;
+        this.livre = false;
+        this.rating = new ArrayList<Double>();
     }
 
     /**
@@ -46,6 +52,8 @@ public class Voluntario {
         this.codVoluntario = v.getCodVoluntario();
         this.gps = v.getGps();
         this.raio = v.getRaio();
+        this.livre = v.getLivre();
+        this.rating = v.getRating();
     }
 
     /**
@@ -96,11 +104,27 @@ public class Voluntario {
         this.livre = livre;
     }
 
-    public double getRating() {
-        return this.rating;
+    public List<Double> getRating() {
+        List<Double> ret = new ArrayList<Double>();
+        for (Double d : this.rating) {
+            ret.add(d);
+        }
+        return ret;
     }
 
-    public void setRating(double rating) {
+    public Double getRatingTotal() {
+        Double ret = 0.0;
+        for (Double d : this.rating) {
+            ret += d;
+        }
+        return (ret/(this.rating.size()));
+    }
+
+    public void addRating(double rating) {
+        this.rating.add(rating);
+    }
+
+    public void setRating(List<Double> rating) {
         this.rating = rating;
     }
 

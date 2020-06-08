@@ -3,7 +3,6 @@ package MVC.Controller;
 import java.util.ArrayList;
 
 import Base.Basic.Coordenadas;
-import MVC.Controller.Menu.Menu;
 import MVC.Model.Model;
 import Users.Utilizador;
 
@@ -19,6 +18,7 @@ public class ControllerUtilizador extends Controller{
     private final String[] gpsRegister = {"GPS(Register)_0.0,0.0"};
     private final String[] nomeRegister = {"Nome(Register)"};
     private final String[] passwordErrada = {"Password Errada"};
+    private final String[] loginSucess = {"Menu Utilizador", "Solicitar Entrega de Encomenda - Voluntário", "Solicitar Entrega de Encomenda - Transportadora", "Entregas Efetuadas", "Classificar Ultima Entrega"};
 
     private final String[] quit = {"quit"};
 
@@ -140,7 +140,7 @@ public class ControllerUtilizador extends Controller{
                 }
                 if (this.getModel().password(((String) cache.get(0)), campos[1])) {
                     cache.clear();
-                    setScreen(getLogin());//por enquanto MUDAR TO DOO
+                    setScreen(loginSucess);
                 }
                 else {
                     setScreen(passwordErrada);
@@ -153,6 +153,25 @@ public class ControllerUtilizador extends Controller{
             case "Utilizador não Existe":
                 cache.clear();
                 this.setScreen(super.getLogin());
+                break;
+            case "Menu Utilizador":
+                if(campos.length == 1) {
+                    break;
+                }
+                switch (campos[1]) {
+                    case "1":
+                        
+                        break;
+                    case "2":
+                        
+                        break;
+                    case "3":
+                        
+                        break;
+                    case "4":
+                        
+                        break;
+                }
                 break;
         }
         return;

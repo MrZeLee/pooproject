@@ -93,7 +93,7 @@ public class Logparser {
         xy.setLatitude(Double.parseDouble(campos[2]));
         xy.setLongitude(Double.parseDouble(campos[3]));
         v.setRaio(Double.parseDouble(campos[4]));
-        v.setRating(0);
+        v.setRating(new ArrayList<Double>());
         v.setLivre(false);
         v.setGps(xy);
         return v;
