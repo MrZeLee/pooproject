@@ -50,7 +50,7 @@ public class Logparser {
                         break;
                     case "Aceite":
                         Aceite a = parseAceite(linhaPartida[1]);
-                        //parsed.addAceite(a);
+                        parsed.addAceiteLog(a);
                         //System.out.println(a.toString());
                         break;                            
                     default: 
@@ -141,9 +141,9 @@ public class Logparser {
     }
 
     public Aceite parseAceite(String input){
-        Aceite a = new Aceite();
+        //Aceite a = new Aceite();
         String[] campos = input.split(",");
-        a.setCodEncomenda(campos[0]);
+        Aceite a = new Aceite(campos[0]);
         return a;
     }
 
