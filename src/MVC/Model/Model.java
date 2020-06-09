@@ -83,7 +83,7 @@ public class Model{
         Loja l = this.lojas.get(e.getCodLoja());
         Utilizador u = this.utilizadores.get(e.getCodUtilizador());
         for ( Transportadora t : this.transportadoras) {
-            if(t.isNextTo(l,u)) {
+            if(t.isOn() && t.isNextTo(l,u)) {
                 first.add(t.getCodEmpresa());
                 second.add(String.format("%s - %s€", t.getNomeEmpresa(), t.custo(l, u, e)));
             }
@@ -102,7 +102,7 @@ public class Model{
         Loja l = this.lojas.get(e.getCodLoja());
         Utilizador u = this.utilizadores.get(e.getCodUtilizador());
         for ( Voluntario t : this.voluntarios) {
-            if(t.isNextTo(l,u)) {
+            if(t.isLivre() && t.isNextTo(l,u)) {
                 first.add(t.getCodVoluntario());
                 second.add(t.getNome());
             }

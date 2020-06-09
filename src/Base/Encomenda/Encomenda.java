@@ -1,5 +1,6 @@
 package Base.Encomenda;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
@@ -12,8 +13,12 @@ public class Encomenda implements Comparator<Encomenda> {
     private String codEncomenda;
     private String codUtilizador;
     private String codLoja;
+    private String codTransportador; //Voluntario ou Loja
     private double peso;
     private ArrayList<LinhaEncomenda> lista;
+    private LocalDateTime criation;
+
+    private double rating;
     //private Coordenadas gps;
     
 
@@ -29,10 +34,13 @@ public class Encomenda implements Comparator<Encomenda> {
         for (LinhaEncomenda linhaEncomenda : lista) {
             this.lista.add(linhaEncomenda);
         }
+        this.criation = LocalDateTime.now();
+        this.rating = -1.0;
     }
 
     public Encomenda(Encomenda x) {
         this(x.codEncomenda,x.codUtilizador,x.codLoja,x.peso,x.lista);
+        this.criation = x.getCriation();
     }
 
     public String getCodEncomenda() {
@@ -82,6 +90,32 @@ public class Encomenda implements Comparator<Encomenda> {
         for (LinhaEncomenda linhaEncomenda : lista) {
             this.lista.add(linhaEncomenda);
         }
+    }
+
+    public LocalDateTime getCriation() {
+        return this.criation;
+    }
+
+    public void setCriation(LocalDateTime criation) {
+        this.criation = criation;
+    }
+
+
+    public String getCodTransportador() {
+        return this.codTransportador;
+    }
+
+    public void setCodTransportador(String codTransportador) {
+        this.codTransportador = codTransportador;
+    }
+
+
+    public double getRating() {
+        return this.rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 
     @Override

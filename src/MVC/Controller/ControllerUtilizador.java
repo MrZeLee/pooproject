@@ -1,5 +1,7 @@
 package MVC.Controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -130,6 +132,9 @@ public class ControllerUtilizador extends Controller{
                 if(campos.length == 1) {
                     break;
                 }
+                if(campos[1] == "0") {
+                    setScreen(utilizadorLogin);
+                }
                 if (this.getModel().contains(campos[1])) {
                     cache.add(campos[1]);
                     this.setScreen(password);
@@ -187,7 +192,7 @@ public class ControllerUtilizador extends Controller{
                         setScreen(list1);
                         break;
                     case "3":
-                        
+                        setScreen("Periodo_(2007-12-03T10:15:30/2007-12-03T10:16:30)");
                         break;
                     case "4":
                         
@@ -255,6 +260,8 @@ public class ControllerUtilizador extends Controller{
                     ArrayList<String> list4 = (ArrayList<String>) cache.get(1);
                     if(ret <= list4.size()) {
                         this.getModel().addAceite(list4.get(ret-1), new Aceite(((String) cache.get(0))));
+                        this.setScreen(loginSucess);
+                        cache.clear();
                     }
                 }
                 break;
@@ -271,6 +278,26 @@ public class ControllerUtilizador extends Controller{
                     ArrayList<String> list5 = (ArrayList<String>) cache.get(1);
                     if(ret <= list5.size()) {
                         this.getModel().addAceite(list5.get(ret-1), new Aceite(((String) cache.get(0))));
+                        this.setScreen(loginSucess);
+                        cache.clear();
+                    }
+                }
+                break;
+            case "Periodo":
+                if(campos.length == 1) {
+                    break;
+                }
+                if(campos[1].equals("0")) {
+                    this.setScreen(loginSucess);
+                    cache.clear();
+                }
+                else {
+                    try {
+                        String[] periodos = campos[1].split("/");
+                        cache.add(LocalDateTime.parse(periodos[0]));
+                        cache.add(LocalDateTime.parse(periodos[1]));
+                        
+                    } catch (DateTimeParseException e) {
                     }
                 }
                 break;

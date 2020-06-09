@@ -1,8 +1,10 @@
 package Users;
 
 import java.util.Objects;
+import java.util.TreeSet;
 
 import Base.Basic.Coordenadas;
+import Base.Encomenda.Aceite;
 
 public class Utilizador {
     private String codUtilizador;
@@ -10,6 +12,7 @@ public class Utilizador {
     private String email;
     private String password;
     private Coordenadas gps;
+    private TreeSet<Aceite> encomendasFeitas;
 
     public Utilizador() {
     }
@@ -20,10 +23,12 @@ public class Utilizador {
         this.email = email;
         this.password = password;
         this.gps = gps.clone();
+        this.encomendasFeitas = new TreeSet<Aceite>();
     }
 
     public Utilizador(Utilizador x) {
         this(x.codUtilizador,x.nome,x.email,x.password,x.gps);
+        this.encomendasFeitas = getEncomendasFeitas();
     }
 
     public String getCodUtilizador() {
@@ -65,6 +70,23 @@ public class Utilizador {
     public void setGps(Coordenadas gps) {
         this.gps = gps;
     }
+
+
+    public TreeSet<Aceite> getEncomendasFeitas() {
+        TreeSet<Aceite> ret = new TreeSet<>();
+        for (Aceite aceite : this.encomendasFeitas) {
+            ret.add(aceite);
+        }
+        return ret;
+    }
+
+    public void setEncomendasFeitas(TreeSet<Aceite> encomendasFeitas) {
+        this.encomendasFeitas.clear();
+        for (Aceite aceite : encomendasFeitas) {
+            this.encomendasFeitas.add(aceite);
+        }
+    }
+
 
     @Override
     public boolean equals(Object o) {

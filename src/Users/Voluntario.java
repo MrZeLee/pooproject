@@ -13,7 +13,6 @@ public class Voluntario {
     private double raio;
 
     private boolean livre;
-    private List<Double> rating;
 
     /**
      * Construtor parametrizado
@@ -28,7 +27,6 @@ public class Voluntario {
         this.gps = gps.clone();
         this.raio = raio;
         this.livre = false;
-        this.rating = new ArrayList<Double>();
     }
 
     /**
@@ -40,7 +38,6 @@ public class Voluntario {
         this.gps = new Coordenadas();
         this.raio = 0;
         this.livre = false;
-        this.rating = new ArrayList<Double>();
     }
 
     /**
@@ -53,7 +50,6 @@ public class Voluntario {
         this.gps = v.getGps();
         this.raio = v.getRaio();
         this.livre = v.getLivre();
-        this.rating = v.getRating();
     }
 
     /**
@@ -104,30 +100,6 @@ public class Voluntario {
         this.livre = livre;
     }
 
-    public List<Double> getRating() {
-        List<Double> ret = new ArrayList<Double>();
-        for (Double d : this.rating) {
-            ret.add(d);
-        }
-        return ret;
-    }
-
-    public Double getRatingTotal() {
-        Double ret = 0.0;
-        for (Double d : this.rating) {
-            ret += d;
-        }
-        return (ret/(this.rating.size()));
-    }
-
-    public void addRating(double rating) {
-        this.rating.add(rating);
-    }
-
-    public void setRating(List<Double> rating) {
-        this.rating = rating;
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -137,12 +109,12 @@ public class Voluntario {
             return false;
         }
         Voluntario voluntario = (Voluntario) o;
-        return Objects.equals(codVoluntario, voluntario.codVoluntario) && Objects.equals(nome, voluntario.nome) && Objects.equals(gps, voluntario.gps) && raio == voluntario.raio && livre == voluntario.livre && rating == voluntario.rating;
+        return Objects.equals(codVoluntario, voluntario.codVoluntario) && Objects.equals(nome, voluntario.nome) && Objects.equals(gps, voluntario.gps) && raio == voluntario.raio && livre == voluntario.livre;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(codVoluntario, nome, gps, raio, livre, rating);
+        return Objects.hash(codVoluntario, nome, gps, raio, livre);
     }
 
 
@@ -154,7 +126,6 @@ public class Voluntario {
             ", gps='" + getGps() + "'" +
             ", raio='" + getRaio() + "'" +
             ", livre='" + isLivre() + "'" +
-            ", rating='" + getRating() + "'" +
             "}";
     }
 

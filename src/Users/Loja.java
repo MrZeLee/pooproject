@@ -9,21 +9,25 @@ public class Loja {
     private String nomeLoja;
     private Coordenadas gps;
     private int queue;
-
+    private String password;
 
     public Loja() {
     }
 
-    public Loja(String codLoja, String nomeLoja, Coordenadas gps) {
+    public Loja(String codLoja, String nomeLoja, Coordenadas gps, int q, String pass) {
         this.codLoja = codLoja;
         this.nomeLoja = nomeLoja;
         this.gps = gps.clone();
+        this.queue = q;
+        this.password = pass;
     }
 
     public Loja(Loja x){
         this.codLoja = x.getCodLoja();
         this.nomeLoja = x.getNomeLoja();
         this.gps = x.getGps();
+        this.queue = x.getQueue();
+        this.password = x.getPassword();
 
     }
 
@@ -65,6 +69,15 @@ public class Loja {
     public void setQueue(int queue) {
         this.queue = queue;
     }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 
     @Override
     public boolean equals(Object o) {

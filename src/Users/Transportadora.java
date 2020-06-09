@@ -3,11 +3,10 @@ package Users;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import Base.Basic.Coordenadas;
-import Base.Basic.Pair;
+import Base.Encomenda.Aceite;
 import Base.Encomenda.Encomenda;
 
 public class Transportadora {
@@ -20,14 +19,13 @@ public class Transportadora {
 
     private boolean on;
     private double priceKg;
-    private TreeSet<Encomenda> encomendasFeitas;
-    private TreeMap<String,Pair<Double,Double>> test; //esqueci me o que estava a fazer vou dar commit
+    private TreeSet<Aceite> encomendasFeitas;
 
     public Transportadora() {
     }
 
 
-    public Transportadora(String codEmpresa, String nomeEmpresa, Coordenadas gps, int nif, double raio, double priceKm, boolean on, double priceKg, TreeSet<Encomenda> encomendasFeitas) {
+    public Transportadora(String codEmpresa, String nomeEmpresa, Coordenadas gps, int nif, double raio, double priceKm, boolean on, double priceKg, TreeSet<Aceite> encomendasFeitas) {
         this.codEmpresa = codEmpresa;
         this.nomeEmpresa = nomeEmpresa;
         this.gps = gps.clone();
@@ -36,8 +34,8 @@ public class Transportadora {
         this.priceKm = priceKm;
         this.on = on;
         this.priceKg = priceKg;
-        TreeSet<Encomenda> encFeitas = new TreeSet<Encomenda>();
-        for (Encomenda encomenda : encomendasFeitas) {
+        TreeSet<Aceite> encFeitas = new TreeSet<Aceite>();
+        for (Aceite encomenda : encomendasFeitas) {
             encFeitas.add(encomenda.clone());
         }
         this.encomendasFeitas = encFeitas;
@@ -116,12 +114,31 @@ public class Transportadora {
         this.priceKg = priceKg;
     }
 
-    public TreeSet<Encomenda> getEncomendasFeitas() {
-        return this.encomendasFeitas;
+    public void addEncomendaFeitas(Aceite e) {
+        this.encomendasFeitas.add(e.clone());
     }
 
-    public void setEncomendasFeitas(TreeSet<Encomenda> encomendasFeitas) {
-        this.encomendasFeitas = encomendasFeitas;
+    public void addEncomendaFeitas(String codEncomenda) {
+        this.encomendasFeitas.add(new Aceite(codEncomenda));
+    }
+
+    public void addEncomendaFeitas(Encomenda encomenda) {
+        this.encomendasFeitas.add(new Aceite(encomenda));
+    }
+
+    public TreeSet<Aceite> getEncomendasFeitas() {
+        TreeSet<Aceite> ret = new TreeSet<>();
+        for (Aceite aceite : this.encomendasFeitas) {
+            ret.add(aceite.clone());
+        }
+        return ret;
+    }
+
+    public void setEncomendasFeitas(TreeSet<Aceite> encomendasFeitas) {
+        this.encomendasFeitas.clear();
+        for (Aceite aceite : encomendasFeitas) {
+            this.encomendasFeitas.add(aceite.clone());
+        }
     }
 
     @Override
