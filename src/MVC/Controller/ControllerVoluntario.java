@@ -1,6 +1,9 @@
 // package MVC.Controller;
 
+// import java.util.ArrayList;
+
 // import MVC.Controller.Menu.Menu;
+// import MVC.Model.Model;
 
 // public class ControllerVoluntario extends Controller{
 //     private Menu menu[];
@@ -15,14 +18,14 @@
 //     private final String[] nomeRegister = {"Nome(Register)"};
 //     private final String[] passwordErrada = {"Password Errada"};
 
-//                                           // o que é para por aqui?
+//     // o que é para por aqui?
 //     private final String[] loginSucess = {"Menu Voluntário", "Solicitar Entrega de Encomenda - Voluntário", "Solicitar Entrega de Encomenda - Transportadora", "Entregas Efetuadas", "Classificar Ultima Entrega"};
 
 //     private final String[] quit = {"quit"};
 
 //     private ArrayList<Object> cache = new ArrayList<>();
 
-//  public ControllerVoluntario(Model model){
+//     public ControllerVoluntario(Model model){
 //         super(model);
 //     }
 
@@ -155,7 +158,6 @@
 //                 cache.clear();
 //                 this.setScreen(super.getLogin());
 //                 break;
-
 // // a partir daqui falta o que falta lá em cima 
 //             case "Menu Voluntário":
 //                 if(campos.length == 1) {

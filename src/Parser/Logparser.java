@@ -8,12 +8,14 @@ import Base.*;
 import Base.Basic.Coordenadas;
 import Base.Encomenda.Aceite;
 //import Basic.*;
+import MVC.Model.Model;
 import Base.Encomenda.Encomenda;
 import Base.Encomenda.LinhaEncomenda;
 import Users.*;
 
 
 public class Logparser {
+    Model parsed = new Model();
     
     public void parse(){
         List<String> linhas = lerFicheiro("LogsGerados.csv"); //alterar nome do ficheiro
@@ -23,27 +25,33 @@ public class Logparser {
                 switch(linhaPartida[0]){
                     case "Utilizador": 
                         Utilizador u = parseUtilizador(linhaPartida[1]); // criar um Utilizador
-                        System.out.println(u.toString()); //enviar para o ecra apenas para teste
+                        parsed.addUtilizador(u);
+                       //System.out.println(u.toString()); //enviar para o ecra apenas para teste
                         break;
                     case "Loja": 
                         Loja l = parseLoja(linhaPartida[1]);
-                        System.out.println(l.toString());
+                        parsed.addLoja(l);
+                       //System.out.println(l.toString());
                         break;
                     case "Voluntario":
                         Voluntario v = parseVoluntario(linhaPartida[1]);
-                        System.out.println(v.toString());
+                        parsed.addVoluntario(v);
+                       //System.out.println(v.toString());
                         break;
                     case "Transportadora":
                         Transportadora t = parseTransportadora(linhaPartida[1]);
-                        System.out.println(t.toString());
+                        parsed.addTransportadora(t);
+                        //System.out.println(t.toString());
                         break;
                     case "Encomenda":
                         Encomenda e = parseEncomenda(linhaPartida[1]);
-                        System.out.println(e.toString());
+                        parsed.addEncomendas(e);
+                        //System.out.println(e.toString());
                         break;
                     case "Aceite":
                         Aceite a = parseAceite(linhaPartida[1]);
-                        System.out.println(a.toString());
+                        //parsed.addAceite(a);
+                        //System.out.println(a.toString());
                         break;                            
                     default: 
                         System.out.println("Linha invalida.");
