@@ -1,9 +1,12 @@
 package MVC.Controller;
 
 import java.util.ArrayList;
+import java.util.List;
+
 
 import Base.Basic.Coordenadas;
 import MVC.Model.Model;
+import Users.Loja;
 
 public class ControllerLoja extends Controller {
 
@@ -18,6 +21,7 @@ public class ControllerLoja extends Controller {
     private final String[] lojaQueue = {"Queue"};
     private final String[] gpsRegister = {"GPS(Register)_0.0,0.0"};
     private final String[] quit = {"Quit"};
+    private final String[] passwordErrada = {"Password Errada"};
     private final String[] loginSuccess = {"Menu da Loja", "Sinalizar Encomenda Disponivel", "Verificar Queue"};
 
     
@@ -49,7 +53,7 @@ public class ControllerLoja extends Controller {
                 }
                 break;
             //Register Shop
-            case "Loja(Register)"{
+            case "Loja(Register)":
                 if (campos.length == 1){
                     break;
                 }
@@ -105,20 +109,82 @@ public class ControllerLoja extends Controller {
                         this.setScreen(gpsRegister);
                     }
                     cache.add(2,coordenadas);
-                    this.setScreen(nomeRegister);
+                    this.setScreen(lojaQueue);
                 }
                 else {
                     setScreen(gpsRegister);
                 }
                 break;
+
+            case "Queue":
+                if(campos.length == 1) {
+                    break;
+                }
+                cache.add(3,campos[1]);
+                this.setScreen(nomeRegister);
+                break;
+                
             case "Nome(Register)":
                 if(campos.length == 1) {
                     break;
                 }
-                this.getModel().addLoja(new Loja(((String) cache.get(0)), campos[1], ((String) cache.get(0)), ((String) cache.get(1)), new Coordenadas(((Double) cache.get(2)), ((Double) cache.get(3)))));
+                cache.add(1, campos[1]);
+                this.getModel().addLoja(new Loja((String)cache.get(0), (String)cache.get(1), (Coordenadas)cache.get(2), (int)cache.get(3), (String)cache.get(4)));
                 cache.clear();
                 this.setScreen(getLogin());
-            }
+            //LOGIN
+            case "Loja(Login)":
+                if(campos.length == 1) {
+                    break;
+                }
+                if(campos[1] == "0") {
+                    setScreen(lojaLogin);
+                }
+                if (this.getModel().contains(campos[1])) {
+                    cache.add(campos[1]);
+                    this.setScreen(password);
+                }
+                else {
+                    this.setScreen(naoExiste);
+                }
+                break;
+            case "Password":
+                if(campos.length == 1) {
+                    break;
+                }
+                if (this.getModel().password(((String) cache.get(0)), campos[1])) {
+                    loja = campos[0];
+                    cache.clear();
+                    setScreen(loginSuccess);
+                }
+                else {
+                    setScreen(passwordErrada);
+                }
+                break;
+            case "Password Errada":
+                cache.clear();
+                this.setScreen(super.getLogin());
+                break;
+            case "Utilizador não Existe":
+                cache.clear();
+                this.setScreen(super.getLogin());
+                break;
+            //MENU SHOP
+            case "Menu Loja":
+                if(campos.length == 1) {
+                    break;
+                }
+                switch (campos[1]) {
+                    case "1":
+                        List<String> list = new ArrayList<String>();
+                        list.add("Sinalizar Encomenda Disponivel");
+                        for (String string : this.getModel().getEncomendas(utilizador)) {
+                            list.add(string);
+                        }
+                        for (String string : list) {
+                            cache.add(string);
+                        }
+                        setScreen(list);
+                        break;
         }
     }
-}

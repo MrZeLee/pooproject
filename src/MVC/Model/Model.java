@@ -55,6 +55,11 @@ public class Model{
         this.aceite.put(transportadora, e.clone());
     }
 
+    public void addAceiteLog(Aceite e) {
+        this.sinalizadas.remove(e);
+        this.aceite.put(e.getCodEncomenda(),e.clone());
+    }
+
     //UTILIZADOR
 
     public boolean contains(String email) {

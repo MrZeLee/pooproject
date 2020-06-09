@@ -50,7 +50,7 @@ public class Logparser {
                         break;
                     case "Aceite":
                         Aceite a = parseAceite(linhaPartida[1]);
-                        //parsed.addAceite(a);
+                        parsed.addAceiteLog(a);
                         //System.out.println(a.toString());
                         break;                            
                     default: 
@@ -101,7 +101,6 @@ public class Logparser {
         xy.setLatitude(Double.parseDouble(campos[2]));
         xy.setLongitude(Double.parseDouble(campos[3]));
         v.setRaio(Double.parseDouble(campos[4]));
-        v.setRating(new ArrayList<Double>());
         v.setLivre(false);
         v.setGps(xy);
         return v;
@@ -142,9 +141,9 @@ public class Logparser {
     }
 
     public Aceite parseAceite(String input){
-        Aceite a = new Aceite();
+        //Aceite a = new Aceite();
         String[] campos = input.split(",");
-        a.setCodEncomenda(campos[0]);
+        Aceite a = new Aceite(campos[0]);
         return a;
     }
 
