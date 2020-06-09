@@ -8,6 +8,7 @@ import java.util.List;
 import Base.Basic.Coordenadas;
 import Base.Basic.Pair;
 import Base.Encomenda.Aceite;
+import MVC.Controller.Menu.Menu;
 import MVC.Model.Model;
 import Users.Utilizador;
 
@@ -24,6 +25,7 @@ public class ControllerUtilizador extends Controller{
     private final String[] nomeRegister = {"Nome(Register)"};
     private final String[] passwordErrada = {"Password Errada"};
     private final String[] loginSucess = {"Menu Utilizador", "Solicitar Entrega de Encomenda ~ Voluntário", "Solicitar Entrega de Encomenda ~ Transportadora", "Entregas Efetuadas", "Classificar Ultima Entrega"};
+    private final String[] chosePeriodoType = {"Periodo~Escolha", "Todos", "Voluntários", "Transportadoras"};
 
     private final String[] quit = {"quit"};
 
@@ -37,6 +39,11 @@ public class ControllerUtilizador extends Controller{
     @Override
     protected void update() {
         String[] campos = this.getOption().split("-");
+        if(campos.length > 2) {
+            for (int i = 2; i < campos.length; i++) {
+                campos[1] = campos[1] + "-" + campos[i];
+            }
+        }
 
         switch (campos[0]) {
             case "Menu":
@@ -148,7 +155,7 @@ public class ControllerUtilizador extends Controller{
                     break;
                 }
                 if (this.getModel().password(((String) cache.get(0)), campos[1])) {
-                    utilizador = campos[0];
+                    utilizador = (String) cache.get(0);
                     cache.clear();
                     setScreen(loginSucess);
                 }
@@ -192,7 +199,7 @@ public class ControllerUtilizador extends Controller{
                         setScreen(list1);
                         break;
                     case "3":
-                        setScreen("Periodo_(2007-12-03T10:15:30/2007-12-03T10:16:30)");
+                        setScreen(new Menu("Periodo_(2007-12-03T10:15:30/2007-12-03T10:16:30)"));
                         break;
                     case "4":
                         
@@ -296,10 +303,40 @@ public class ControllerUtilizador extends Controller{
                         String[] periodos = campos[1].split("/");
                         cache.add(LocalDateTime.parse(periodos[0]));
                         cache.add(LocalDateTime.parse(periodos[1]));
-                        
+                        setScreen(chosePeriodoType);
                     } catch (DateTimeParseException e) {
                     }
                 }
+                break;
+            case "Periodo~Escolha":
+                if(campos.length == 1) {
+                    break;
+                }
+                if(campos[1].equals("0")) {
+                    this.setScreen(loginSucess);
+                    cache.clear();
+                }
+                switch (campos[1]) {
+                    case "1":
+                        List<String> list6 = this.getModel().getPeriodo(utilizador, (LocalDateTime) cache.get(0), (LocalDateTime) cache.get(1));
+                        list6.add(0,"Periodo~Resultados");
+                        setScreen(list6);
+                        break;
+                    case "2":
+                        List<String> list7 = this.getModel().getPeriodo(utilizador, (LocalDateTime) cache.get(0), (LocalDateTime) cache.get(1));
+                        list7.add(0,"Periodo~Resultados");
+                        setScreen(list7);
+                        break;
+                    case "3":
+                        List<String> list8 = this.getModel().getPeriodo(utilizador, (LocalDateTime) cache.get(0), (LocalDateTime) cache.get(1));
+                        list8.add(0,"Periodo~Resultados");
+                        setScreen(list8);
+                        break;
+                }
+                break;
+            case "Periodo~Resultados":
+                cache.clear();
+                setScreen(loginSucess);
                 break;
         }
         return;

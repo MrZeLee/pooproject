@@ -15,6 +15,12 @@ public class Menu {
     private List<String> opcoes;
     private int op;
 
+    public Menu(String x) {
+        this.opcoes = new ArrayList<>();
+        opcoes.add(x);
+        this.op = 0;
+    }
+
     public Menu(String[] opcoes) {
         this.opcoes = Arrays.asList(opcoes);
         this.op = 0;

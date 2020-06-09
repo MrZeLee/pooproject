@@ -1,5 +1,6 @@
 package MVC.Model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
@@ -15,9 +16,9 @@ import Users.Voluntario;
 
 public class Model{
     private TreeMap<String,Loja> lojas = new TreeMap<String,Loja>();
-    private TreeSet<Transportadora> transportadoras = new TreeSet<Transportadora>();
+    private TreeMap<String,Transportadora> transportadoras = new TreeMap<String,Transportadora>();
     private TreeMap<String,Utilizador> utilizadores = new TreeMap<String,Utilizador>();
-    private TreeSet<Voluntario> voluntarios = new TreeSet<Voluntario>();
+    private TreeMap<String,Voluntario> voluntarios = new TreeMap<String,Voluntario>();
     private TreeMap<String,Encomenda> encomendas = new TreeMap<String,Encomenda>();
 
     private TreeSet<Aceite> loja = new TreeSet<Aceite>();// adicionadas no inicio para aprovacao da loja
@@ -29,7 +30,7 @@ public class Model{
     }
 
     public void addTransportadora(Transportadora l) {
-        this.transportadoras.add(l.clone());
+        this.transportadoras.put(l.getCodEmpresa(), l.clone());
     }
 
     public void addUtilizador(Utilizador l) {
@@ -37,7 +38,7 @@ public class Model{
     }
 
     public void addVoluntario(Voluntario l) {
-        this.voluntarios.add(l.clone());
+        this.voluntarios.put(l.getCodVoluntario(),l.clone());
     }
 
     public void addEncomendas(Encomenda e) {
@@ -82,7 +83,7 @@ public class Model{
         Encomenda e = this.encomendas.get(codEncomenda);
         Loja l = this.lojas.get(e.getCodLoja());
         Utilizador u = this.utilizadores.get(e.getCodUtilizador());
-        for ( Transportadora t : this.transportadoras) {
+        for ( Transportadora t : this.transportadoras.values()) {
             if(t.isOn() && t.isNextTo(l,u)) {
                 first.add(t.getCodEmpresa());
                 second.add(String.format("%s - %s€", t.getNomeEmpresa(), t.custo(l, u, e)));
@@ -101,7 +102,7 @@ public class Model{
         Encomenda e = this.encomendas.get(codEncomenda);
         Loja l = this.lojas.get(e.getCodLoja());
         Utilizador u = this.utilizadores.get(e.getCodUtilizador());
-        for ( Voluntario t : this.voluntarios) {
+        for ( Voluntario t : this.voluntarios.values()) {
             if(t.isLivre() && t.isNextTo(l,u)) {
                 first.add(t.getCodVoluntario());
                 second.add(t.getNome());
@@ -109,6 +110,45 @@ public class Model{
         }
         ret.setFirst(first);
         ret.setSecond(second);
+        return ret;
+    }
+
+    public List<String> getPeriodo(String u, LocalDateTime a, LocalDateTime b) {
+        List<String> ret = new ArrayList<>();
+        Utilizador us = this.utilizadores.get(u);
+        for (Aceite aceite : us.getEncomendasFeitas()) {
+            Encomenda es = this.encomendas.get(aceite.getCodEncomenda());
+            LocalDateTime ldt = es.getCriation();
+            if(ldt.isAfter(a) && ldt.isBefore(b)) {
+                ret.add(es.toString());
+            }
+        }
+        return ret;
+    }
+
+    public List<String> getPeriodoVoluntario(String u, LocalDateTime a, LocalDateTime b) {
+        List<String> ret = new ArrayList<>();
+        Utilizador us = this.utilizadores.get(u);
+        for (Aceite aceite : us.getEncomendasFeitas()) {
+            Encomenda es = this.encomendas.get(aceite.getCodEncomenda());
+            LocalDateTime ldt = es.getCriation();
+            if(ldt.isAfter(a) && ldt.isBefore(b) && this.voluntarios.containsKey(es.getCodTransportador())) {
+                ret.add(es.toString());
+            }
+        }
+        return ret;
+    }
+
+    public List<String> getPeriodoTransportadora(String u, LocalDateTime a, LocalDateTime b) {
+        List<String> ret = new ArrayList<>();
+        Utilizador us = this.utilizadores.get(u);
+        for (Aceite aceite : us.getEncomendasFeitas()) {
+            Encomenda es = this.encomendas.get(aceite.getCodEncomenda());
+            LocalDateTime ldt = es.getCriation();
+            if(ldt.isAfter(a) && ldt.isBefore(b) && this.transportadoras.containsKey(es.getCodTransportador())) {
+                ret.add(es.toString());
+            }
+        }
         return ret;
     }
 
