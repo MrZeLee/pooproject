@@ -20,6 +20,14 @@ public class Menu {
         this.op = 0;
     }
 
+    public Menu(List<String> opcoes) {
+        this.opcoes = new ArrayList<>();
+        for (String string : opcoes) {
+            this.opcoes.add(string);
+        }
+        this.op = 0;
+    }
+
     public String toString() {
         StringBuilder ret = new StringBuilder();
         ret.append(String.format("***_%s_***\n", this.opcoes.get(0)));

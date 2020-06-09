@@ -1,8 +1,11 @@
 package MVC.Controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import Base.Basic.Coordenadas;
+import Base.Basic.Pair;
+import Base.Encomenda.Aceite;
 import MVC.Model.Model;
 import Users.Utilizador;
 
@@ -18,11 +21,12 @@ public class ControllerUtilizador extends Controller{
     private final String[] gpsRegister = {"GPS(Register)_0.0,0.0"};
     private final String[] nomeRegister = {"Nome(Register)"};
     private final String[] passwordErrada = {"Password Errada"};
-    private final String[] loginSucess = {"Menu Utilizador", "Solicitar Entrega de Encomenda - Voluntário", "Solicitar Entrega de Encomenda - Transportadora", "Entregas Efetuadas", "Classificar Ultima Entrega"};
+    private final String[] loginSucess = {"Menu Utilizador", "Solicitar Entrega de Encomenda ~ Voluntário", "Solicitar Entrega de Encomenda ~ Transportadora", "Entregas Efetuadas", "Classificar Ultima Entrega"};
 
     private final String[] quit = {"quit"};
 
     private ArrayList<Object> cache = new ArrayList<>();
+    private String utilizador = new String();
 
     public ControllerUtilizador(Model model){
         super(model);
@@ -139,6 +143,7 @@ public class ControllerUtilizador extends Controller{
                     break;
                 }
                 if (this.getModel().password(((String) cache.get(0)), campos[1])) {
+                    utilizador = campos[0];
                     cache.clear();
                     setScreen(loginSucess);
                 }
@@ -160,10 +165,26 @@ public class ControllerUtilizador extends Controller{
                 }
                 switch (campos[1]) {
                     case "1":
-                        
+                        List<String> list = new ArrayList<String>();
+                        list.add("Solicitar Entrega de Encomenda ~ Voluntário");
+                        for (String string : this.getModel().getEncomendas(utilizador)) {
+                            list.add(string);
+                        }
+                        for (String string : list) {
+                            cache.add(string);
+                        }
+                        setScreen(list);
                         break;
                     case "2":
-                        
+                        List<String> list1 = new ArrayList<String>();
+                        list1.add("Solicitar Entrega de Encomenda ~ Transportadora");
+                        for (String string : this.getModel().getEncomendas(utilizador)) {
+                            list1.add(string);
+                        }
+                        for (String string : list1) {
+                            cache.add(string);
+                        }
+                        setScreen(list1);
                         break;
                     case "3":
                         
@@ -171,6 +192,86 @@ public class ControllerUtilizador extends Controller{
                     case "4":
                         
                         break;
+                    case "0":
+                        utilizador = "";
+                        setScreen(this.getLogin());
+                        break;
+                }
+                break;
+            case "Solicitar Entrega de Encomenda ~ Voluntário":
+                if(campos.length == 1) {
+                    break;
+                }
+                if(campos[1].equals("0")) {
+                    this.setScreen(loginSucess);
+                    cache.clear();
+                }
+                else if (campos[1].matches("^[0-9]+$")) {
+                    int ret = Integer.parseInt(campos[1]);
+                    if(ret <= cache.size()) {
+                        String encomenda = (String) cache.get(ret-1);
+                        cache.clear();
+                        cache.add(encomenda);
+                        Pair<List<String>,List<String>> list2 = this.getModel().getVoluntarios(encomenda);
+                        cache.add(list2.getFirst());
+                        List<String> list3 = list2.getSecond();
+                        list3.add(0,"Escolhas Voluntario");
+                        setScreen(list3);
+                    }
+                }
+                break;
+            case "Solicitar Entrega de Encomenda ~ Transportadora":
+                if(campos.length == 1) {
+                    break;
+                }
+                if(campos[1].equals("0")) {
+                    this.setScreen(loginSucess);
+                    cache.clear();
+                }
+                else if (campos[1].matches("^[0-9]+$")) {
+                    int ret = Integer.parseInt(campos[1]);
+                    if(ret <= cache.size()) {
+                        String encomenda = (String) cache.get(ret-1);
+                        cache.clear();
+                        cache.add(encomenda);
+                        Pair<List<String>,List<String>> list2 = this.getModel().getTransportadoras(encomenda);
+                        cache.add(list2.getFirst());
+                        List<String> list3 = list2.getSecond();
+                        list3.add(0,"Escolhas Transportadoras");
+                        setScreen(list3);
+                    }
+                }
+                break;
+            case "Escolhas Transportadoras":
+                if(campos.length == 1) {
+                    break;
+                }
+                if(campos[1].equals("0")) {
+                    this.setScreen(loginSucess);
+                    cache.clear();
+                }
+                else if(campos[1].matches("^[0-9]+$")) {
+                    int ret = Integer.parseInt(campos[1]);
+                    ArrayList<String> list4 = (ArrayList<String>) cache.get(1);
+                    if(ret <= list4.size()) {
+                        this.getModel().addAceite(list4.get(ret-1), new Aceite(((String) cache.get(0))));
+                    }
+                }
+                break;
+            case "Escolhas Voluntario":
+                if(campos.length == 1) {
+                    break;
+                }
+                if(campos[1].equals("0")) {
+                    this.setScreen(loginSucess);
+                    cache.clear();
+                }
+                else if(campos[1].matches("^[0-9]+$")) {
+                    int ret = Integer.parseInt(campos[1]);
+                    ArrayList<String> list5 = (ArrayList<String>) cache.get(1);
+                    if(ret <= list5.size()) {
+                        this.getModel().addAceite(list5.get(ret-1), new Aceite(((String) cache.get(0))));
+                    }
                 }
                 break;
         }

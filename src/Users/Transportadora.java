@@ -179,5 +179,16 @@ public class Transportadora {
         return custo(l,u) + custo(e);
     }
 
+    private boolean isNextTo(Loja l) {
+        return this.getGps().isNextTo(l.getGps(), this.raio);
+    }
+
+    private boolean isNextTo(Utilizador u) {
+        return this.getGps().isNextTo(u.getGps(), this.raio);
+    }
+
+    public boolean isNextTo(Loja l, Utilizador u) {
+        return this.isNextTo(l) && this.isNextTo(u);
+    }
 
 }

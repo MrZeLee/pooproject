@@ -31,6 +31,11 @@ public abstract class Controller extends Observable{
         setScreen(buf.toString());
     }
 
+    public void setScreen(List<String> list) {
+        Menu buf = new Menu(list);
+        setScreen(buf.toString());
+    }
+
     public void setScreen(Menu menu) {
         setScreen(menu.toString());
     }

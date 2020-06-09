@@ -1,5 +1,6 @@
 package Base.Encomenda;
 
+import java.util.Objects;
 
 public class Aceite {
     String codEncomenda;
@@ -12,6 +13,10 @@ public class Aceite {
     }
 
     public Aceite(Aceite x) {
+        this.codEncomenda = x.getCodEncomenda();
+    }
+
+    public Aceite(Encomenda x) {
         this.codEncomenda = x.getCodEncomenda();
     }
 
@@ -28,16 +33,16 @@ public class Aceite {
         return this;
     }
 
-    // @Override
-    // public boolean equals(Object o) {
-    //     if (o == this)
-    //         return true;
-    //     if (!(o instanceof Aceite)) {
-    //         return false;
-    //     }
-    //     Aceite aceite = (Aceite) o;
-    //     return Objects.equals(codEncomenda, aceite.codEncomenda);
-    // }
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Aceite)) {
+            return false;
+        }
+        Aceite aceite = (Aceite) o;
+        return Objects.equals(codEncomenda, aceite.codEncomenda);
+    }
 
     // @Override
     // public int hashCode() {
