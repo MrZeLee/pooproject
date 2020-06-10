@@ -27,6 +27,7 @@ public class ControllerLoja extends Controller {
     
     private ArrayList<Object> cache = new ArrayList<>(5);
     private String loja = new String();
+    private String encomenda = new String();
 
     public ControllerLoja(Model model){
         super(model);
@@ -165,7 +166,7 @@ public class ControllerLoja extends Controller {
                 cache.clear();
                 this.setScreen(super.getLogin());
                 break;
-            case "Utilizador não Existe":
+            case "Loja não Existe":
                 cache.clear();
                 this.setScreen(super.getLogin());
                 break;
@@ -178,7 +179,7 @@ public class ControllerLoja extends Controller {
                     case "1":
                         List<String> list = new ArrayList<String>();
                         list.add("Sinalizar Encomenda Disponivel");
-                       // for (String string : this.getModel(). {
+                        for (String string : this.getModel().() {
                             list.add(string);
                         }
                         for (String string : list) {
