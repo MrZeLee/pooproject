@@ -45,9 +45,9 @@ public class Main {
                             // viewV.run();
                              break;
                          case 4:
-                            // controller = new ControllerTransportadora(model); 
-                            // View viewT = new View(controller);
-                            // viewT.run();
+                            controller = new ControllerTransportadora(model); 
+                            View viewT = new View(controller);
+                            viewT.run();
                              break;
                          default:
                             System.out.println("No Valid Input Given!");

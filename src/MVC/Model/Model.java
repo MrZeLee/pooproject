@@ -51,6 +51,10 @@ public class Model{
         this.loja.add(new Aceite(e));
     }
 
+    public void addSinalizadas(String e) {
+        addSinalizadas(new Aceite(e));
+    }
+
     public void addSinalizadas(Aceite e) {
         this.loja.remove(e);
         this.sinalizadas.add(e.clone());
@@ -72,6 +76,11 @@ public class Model{
         this.sinalizadas.add(e.clone());
     }
 
+    //ENCOMENDA
+
+    // SO PARA ENCOMENDAS POR TRANSPORTADORA
+    
+
     //UTILIZADOR
 
     public boolean contains(String email) {
@@ -82,12 +91,19 @@ public class Model{
         return this.utilizadores.get(utilizador).getPassword().equals(password);
     }
 
-    public List<String> getEncomendas(String codUtilizador) {
-        List<String> ret = new ArrayList<>();
+    public Pair<List<String>,List<String>> getEncomendas(String codUtilizador) {
+        Pair<List<String>,List<String>> ret = new Pair<>();
+        List<String> first = new ArrayList<>();
+        List<String> second = new ArrayList<>();
         for (Aceite aceite : this.sinalizadas) {
             Encomenda x = this.encomendas.get(aceite.getCodEncomenda());
-            if(x.getCodUtilizador().equals(codUtilizador)) ret.add(x.toString());
+            if(x.getCodUtilizador().equals(codUtilizador)) {
+                first.add(x.getCodEncomenda());
+                second.add(x.toString());
+            }
         }
+        ret.setFirst(first);
+        ret.setSecond(second);
         return ret;
     }
 
@@ -102,7 +118,7 @@ public class Model{
         for ( Transportadora t : this.transportadoras.values()) {
             if(t.isOn() && t.isNextTo(l,u)) {
                 first.add(t.getCodEmpresa());
-                second.add(String.format("%s - %s€", t.getNomeEmpresa(), t.custo(l, u, e)));
+                second.add(String.format("%s - %s€", t.getNomeEmpresa(), t.custo(l, u, e) + l.tempo() * 0.5));
             }
         }
         ret.setFirst(first);
@@ -215,5 +231,46 @@ public class Model{
         return ret;
     }
     
+    //TRANSPORTADORA
+
+    public boolean containsTransportadora(String codTransportadora) {
+        return this.transportadoras.containsKey(codTransportadora);
+    }
+
+    public int transportadoraOn(String codTransportadora) {
+        return (this.transportadoras.get(codTransportadora).getOn() ? 1 : 0);
+    }
+
+    public int toogleTransportadora(String codTransportadora) {
+        return (this.transportadoras.get(codTransportadora).toogleOn() ? 1 : 0);
+    }
+
+    public boolean passwordTransportadora(String transportadora, String password) {
+        return this.transportadoras.get(transportadora).getPassword().equals(password);
+    }
+
+    public double preco(String encomenda) {
+        Encomenda e = this.encomendas.get(encomenda);
+        Utilizador u = this.utilizadores.get(e.getCodUtilizador());
+        Transportadora t = this.transportadoras.get(e.getCodTransportador());
+        Loja l = this.lojas.get(e.getCodLoja());
+        return t.custo(l, u, e) + l.tempo() * 0.5;
+    }
+
+    public Pair<List<String>,List<String>> getEncomendasTransportadora(String codTransportadora) {
+        Pair<List<String>,List<String>> ret = new Pair<>();
+        List<String> first = new ArrayList<>();
+        List<String> second = new ArrayList<>();
+        for (Aceite aceite : this.aceite) {
+            Encomenda x = this.encomendas.get(aceite.getCodEncomenda());
+            if(x.getCodTransportador().equals(codTransportadora)) {
+                first.add(x.getCodEncomenda());
+                second.add(x.toString());
+            }
+        }
+        ret.setFirst(first);
+        ret.setSecond(second);
+        return ret;
+    }
 
 }
