@@ -202,7 +202,11 @@ public class ControllerUtilizador extends Controller{
                         setScreen(new Menu("Periodo_(2007-12-03T10:15:30/2007-12-03T10:16:30)"));
                         break;
                     case "4":
-                        
+                        Pair<List<String>,List<String>> list10 = this.getModel().getRatings(utilizador);
+                        cache.add(list10.getFirst());
+                        List<String> list11 = list10.getSecond();
+                        list11.add(0,"Ratings");
+                        setScreen(list11);
                         break;
                     case "0":
                         utilizador = "";
@@ -220,8 +224,8 @@ public class ControllerUtilizador extends Controller{
                 }
                 else if (campos[1].matches("^[0-9]+$")) {
                     int ret = Integer.parseInt(campos[1]);
-                    if(ret <= cache.size()) {
-                        String encomenda = (String) cache.get(ret-1);
+                    if(ret < cache.size()) {
+                        String encomenda = (String) cache.get(ret);
                         cache.clear();
                         cache.add(encomenda);
                         Pair<List<String>,List<String>> list2 = this.getModel().getVoluntarios(encomenda);
@@ -242,8 +246,8 @@ public class ControllerUtilizador extends Controller{
                 }
                 else if (campos[1].matches("^[0-9]+$")) {
                     int ret = Integer.parseInt(campos[1]);
-                    if(ret <= cache.size()) {
-                        String encomenda = (String) cache.get(ret-1);
+                    if(ret < cache.size()) {
+                        String encomenda = (String) cache.get(ret);
                         cache.clear();
                         cache.add(encomenda);
                         Pair<List<String>,List<String>> list2 = this.getModel().getTransportadoras(encomenda);
@@ -337,6 +341,38 @@ public class ControllerUtilizador extends Controller{
             case "Periodo~Resultados":
                 cache.clear();
                 setScreen(loginSucess);
+                break;
+            case "Ratings":
+                if(campos.length == 1) {
+                    break;
+                }
+                if(campos[1].equals("0")) {
+                    this.setScreen(loginSucess);
+                    cache.clear();
+                }
+                else if (campos[1].matches("^[0-9]+$")) {
+                    int ret = Integer.parseInt(campos[1]);
+                    ArrayList<String> list12 = (ArrayList<String>) cache.get(0);
+                    if(ret <= list12.size()) {
+                        this.setScreen(new Menu("Rating encomenda_" + list12.get(ret-1)));
+                        cache.clear();
+                        cache.add(list12.get(ret-1));
+                    }
+                }
+                break;
+            case "Rating encomenda":
+                if(campos.length == 1) {
+                    break;
+                }
+                if(campos[1].equals("0")) {
+                    this.setScreen(loginSucess);
+                    cache.clear();
+                }
+                if(campos[1].matches("^[1-5]$")) {
+                    this.getModel().SetRating((String) cache.get(0), Double.parseDouble(campos[1]));
+                    cache.clear();
+                    this.setScreen(loginSucess);
+                }
                 break;
         }
         return;

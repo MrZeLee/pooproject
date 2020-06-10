@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
 
+import MVC.Model.Model;
+
 /**
  * Encomenda
  */
@@ -142,6 +144,17 @@ public class Encomenda implements Comparator<Encomenda> {
             ", codLoja='" + getCodLoja() + "'" +
             ", peso='" + getPeso() + "'" +
             ", lista='" + getLista() + "'" +
+            "}";
+    }
+
+    public String toString(Model x) {
+        return "{" +
+            " codEncomenda='" + getCodEncomenda() + "'" +
+            ", codUtilizador='" + getCodUtilizador() + "'" +
+            ", Loja='" + x.getLoja(getCodLoja()) + "'" +
+            ", peso='" + getPeso() + " kg'" +
+            ", lista='" + getLista() + "'" +
+            ", creation='" + getCriation().toString() + "'" +
             "}";
     }
 
