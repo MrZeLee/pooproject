@@ -23,10 +23,15 @@ public class Model{
 
     private TreeSet<Aceite> loja = new TreeSet<Aceite>();// adicionadas no inicio para aprovacao da loja
     private TreeSet<Aceite> sinalizadas = new TreeSet<Aceite>();// transferidas da loja para aqui quando a loja as aprova, aguardam aprovacao do utilizador
-    private TreeMap<String,Aceite> aceite = new TreeMap<String,Aceite>();// transferidas das sinalizads para aceite quando o user aprova, estas sao vistas pelos voluntarios e transportadoras
+    private TreeSet<Aceite> aceite = new TreeSet<Aceite>();// transferidas das sinalizads para aceite quando o user aprova, estas sao vistas pelos voluntarios e transportadoras
+    private TreeSet<Aceite> entregues = new TreeSet<Aceite>(); //entregues pelas transportadoras e viluntarios, o utilizador já pode dar rating
 
     public void addLoja(Loja l) {
         this.lojas.put(l.getCodLoja(), l.clone());
+    }
+
+    public Loja getLoja(String x) {
+        return this.lojas.get(x).clone();
     }
 
     public void addTransportadora(Transportadora l) {
@@ -53,12 +58,18 @@ public class Model{
 
     public void addAceite(String transportadora, Aceite e) {
         this.sinalizadas.remove(e);
-        this.aceite.put(transportadora, e.clone());
+        this.encomendas.get(e.getCodEncomenda()).setCodTransportador(transportadora);
+        this.aceite.add(e.clone());
+    }
+
+    public void addEntregues(Aceite e) {
+        this.aceite.remove(e);
+        this.entregues.add(e.clone());
     }
 
     public void addAceiteLog(Aceite e) {
-        this.sinalizadas.remove(e);
-        this.aceite.put(e.getCodEncomenda(),e.clone());
+        this.loja.remove(e);
+        this.sinalizadas.add(e.clone());
     }
 
     //UTILIZADOR
@@ -135,7 +146,7 @@ public class Model{
             Encomenda es = this.encomendas.get(aceite.getCodEncomenda());
             LocalDateTime ldt = es.getCriation();
             if(ldt.isAfter(a) && ldt.isBefore(b)) {
-                ret.add(es.toString());
+                ret.add(es.toString(this));
             }
         }
         return ret;
@@ -148,7 +159,7 @@ public class Model{
             Encomenda es = this.encomendas.get(aceite.getCodEncomenda());
             LocalDateTime ldt = es.getCriation();
             if(ldt.isAfter(a) && ldt.isBefore(b) && this.voluntarios.containsKey(es.getCodTransportador())) {
-                ret.add(es.toString());
+                ret.add(es.toString(this));
             }
         }
         return ret;
@@ -161,10 +172,32 @@ public class Model{
             Encomenda es = this.encomendas.get(aceite.getCodEncomenda());
             LocalDateTime ldt = es.getCriation();
             if(ldt.isAfter(a) && ldt.isBefore(b) && this.transportadoras.containsKey(es.getCodTransportador())) {
-                ret.add(es.toString());
+                ret.add(es.toString(this));
             }
         }
         return ret;
+    }
+
+    public Pair<List<String>,List<String>> getRatings(String u) {
+        Pair<List<String>,List<String>> ret = new Pair<>();
+        List<String> first = new ArrayList<>();
+        List<String> second = new ArrayList<>();
+
+        for (Aceite aceite : this.entregues) {
+            Encomenda x = this.encomendas.get(aceite.getCodEncomenda());
+            if(x.getCodUtilizador().equals(u) && x.getRating() == -1.0) {
+                first.add(x.getCodEncomenda());
+                second.add(x.toString(this));
+            }
+        }
+
+        ret.setFirst(first);
+        ret.setSecond(second);
+        return ret;
+    }
+
+    public void SetRating(String e, Double rating) {
+        this.encomendas.get(e).setRating(rating);
     }
 
 
