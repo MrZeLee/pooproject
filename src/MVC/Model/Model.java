@@ -91,16 +91,6 @@ public class Model{
         return ret;
     }
 
-    public List<String> getEncomendasLoja(String codLoja) {
-        List<String> ret = new ArrayList<>();
-        for (Aceite aceite : this.loja) {
-            if(this.encomendas.get(aceite.getCodEncomenda()).getCodLoja().equals(codLoja)) {
-                ret.add(aceite.getCodEncomenda());
-            }
-        }
-        return ret;
-    }
-
     public Pair<List<String>,List<String>> getTransportadoras(String codEncomenda) {
         Pair<List<String>,List<String>> ret = new Pair<>();
         List<String> first = new ArrayList<>();
@@ -200,5 +190,30 @@ public class Model{
         this.encomendas.get(e).setRating(rating);
     }
 
+
+    // LOJA
+
+    public List<String> getEncomendasLoja(String codLoja) {
+        List<String> ret = new ArrayList<>();
+        for (Aceite aceite : this.loja) {
+            if(this.encomendas.get(aceite.getCodEncomenda()).getCodLoja().equals(codLoja)) {
+                ret.add(aceite.getCodEncomenda());
+            }
+        }
+        return ret;
+    }
+
+    public int getQueueLoja(String codLoja){
+        int ret = 0;
+        try {
+                Loja newloja = this.lojas.get(codLoja);
+                ret = newloja.getQueue();
+        }
+        catch (Exception e) {
+            System.out.println("Loja Does Not Exist");
+        }
+        return ret;
+    }
+    
 
 }

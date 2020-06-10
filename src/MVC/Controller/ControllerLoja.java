@@ -27,7 +27,6 @@ public class ControllerLoja extends Controller {
     
     private ArrayList<Object> cache = new ArrayList<>(5);
     private String loja = new String();
-    private String encomenda = new String();
 
     public ControllerLoja(Model model){
         super(model);
@@ -179,7 +178,7 @@ public class ControllerLoja extends Controller {
                     case "1":
                         List<String> list = new ArrayList<String>();
                         list.add("Sinalizar Encomenda Disponivel");
-                        for (String string : this.getModel().() {
+                        for (String string : this.getModel().getEncomendasLoja(loja)) {
                             list.add(string);
                         }
                         for (String string : list) {
@@ -187,6 +186,37 @@ public class ControllerLoja extends Controller {
                         }
                         setScreen(list);
                         break;
+                    case "2":
+                        List<String> list2 = new ArrayList<String>();
+                        list2.add("Verificar Queue");
+                        //usar no caso verificarqueue list2.add(String.valueOf(this.getModel().getQueueLoja(loja)));
+                        setScreen(list2);
+                    case "0":
+                        loja = "";
+                        setScreen(this.getLogin());
+                        break;
+                }
+                break;
+            case "Sinalizar Encomenda Disponivel":
+                if(campos.length == 1) {
+                    break;
+                }
+                if(campos[1].equals("0")) {
+                    this.setScreen(loginSuccess);
+                    cache.clear();
+                }
+                else if (campos[1].matches("^[0-9]+$")){
+                    int ret = Integer.parseInt(campos[1]);
+                    if (ret<cache.size()){
+                        String encomenda = (String)cache.get(ret);
+                        cache.clear();
+                        cache.add(encomenda);
+                        //this.getModel().addSinalizadas(cache.get(0));
+
+
+                    }
+                }
+
         }
     }
 }
