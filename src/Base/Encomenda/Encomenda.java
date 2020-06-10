@@ -18,7 +18,13 @@ public class Encomenda implements Comparator<Encomenda> {
     private String codTransportador; //Voluntario ou Loja
     private double peso;
     private ArrayList<LinhaEncomenda> lista;
+
     private LocalDateTime criation;
+
+    private double timePassed;
+    private LocalDateTime received;
+    private double custo = -1;
+
 
     private double rating;
     //private Coordenadas gps;
@@ -118,6 +124,22 @@ public class Encomenda implements Comparator<Encomenda> {
 
     public void setRating(double rating) {
         this.rating = rating;
+    }
+
+    public LocalDateTime getReceived() {
+        return this.received;
+    }
+
+    public void setReceived(LocalDateTime received) {
+        this.received = received;
+    }
+
+    public double getCusto() {
+        return this.custo;
+    }
+
+    public void setCusto(double custo) {
+        this.custo = custo;
     }
 
     @Override

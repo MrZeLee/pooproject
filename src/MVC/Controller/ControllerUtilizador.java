@@ -126,7 +126,7 @@ public class ControllerUtilizador extends Controller{
                 if(campos.length == 1) {
                     break;
                 }
-                this.getModel().addUtilizador(new Utilizador(((String) cache.get(0)), campos[1], ((String) cache.get(0)), ((String) cache.get(1)), new Coordenadas(((Double) cache.get(2)), ((Double) cache.get(3)))));
+                this.getModel().addUtilizador(new Utilizador(((String) cache.get(0)), campos[1], ((String) cache.get(0)), ((String) cache.get(1)), new Coordenadas(((Double) cache.get(2)), ((Double) cache.get(3))), 0));
                 cache.clear();
                 this.setScreen(getLogin());
                 break;
@@ -177,26 +177,22 @@ public class ControllerUtilizador extends Controller{
                 }
                 switch (campos[1]) {
                     case "1":
-                        List<String> list = new ArrayList<String>();
-                        list.add("Solicitar Entrega de Encomenda ~ Voluntário");
-                        for (String string : this.getModel().getEncomendas(utilizador)) {
-                            list.add(string);
-                        }
-                        for (String string : list) {
+                        Pair<List<String>,List<String>> lists = this.getModel().getEncomendas(utilizador);
+                        List<String> list = lists.getSecond();
+                        list.add(0,"Solicitar Entrega de Encomenda ~ Voluntário");
+                        for (String string : lists.getSecond()) {
                             cache.add(string);
                         }
                         setScreen(list);
                         break;
                     case "2":
-                        List<String> list1 = new ArrayList<String>();
-                        list1.add("Solicitar Entrega de Encomenda ~ Transportadora");
-                        for (String string : this.getModel().getEncomendas(utilizador)) {
-                            list1.add(string);
-                        }
-                        for (String string : list1) {
+                        Pair<List<String>,List<String>> listss = this.getModel().getEncomendas(utilizador);
+                        List<String> list2 = listss.getSecond();
+                        list2.add(0,"Solicitar Entrega de Encomenda ~ Transportadora");
+                        for (String string : listss.getSecond()) {
                             cache.add(string);
                         }
-                        setScreen(list1);
+                        setScreen(list2);
                         break;
                     case "3":
                         setScreen(new Menu("Periodo_(2007-12-03T10:15:30/2007-12-03T10:16:30)"));

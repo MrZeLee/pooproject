@@ -14,20 +14,23 @@ public class Utilizador {
     private Coordenadas gps;
     private TreeSet<Aceite> encomendasFeitas;
 
+    private int encomendasTransportadas;
+
     public Utilizador() {
     }
 
-    public Utilizador(String codUtilizador, String nome, String email, String password, Coordenadas gps) {
+    public Utilizador(String codUtilizador, String nome, String email, String password, Coordenadas gps, int encomendasTransportadas) {
         this.codUtilizador = codUtilizador;
         this.nome = nome;
         this.email = email;
         this.password = password;
         this.gps = gps.clone();
         this.encomendasFeitas = new TreeSet<Aceite>();
+        this.encomendasTransportadas = encomendasTransportadas;
     }
 
     public Utilizador(Utilizador x) {
-        this(x.codUtilizador,x.nome,x.email,x.password,x.gps);
+        this(x.codUtilizador,x.nome,x.email,x.password,x.gps, x.encomendasTransportadas);
         this.encomendasFeitas = getEncomendasFeitas();
     }
 
@@ -87,6 +90,17 @@ public class Utilizador {
         }
     }
 
+    public int getEncomendasTransportadas() {
+        return this.encomendasTransportadas;
+    }
+
+    public void setEncomendasTransportadas(int encomendasTransportadas) {
+        this.encomendasTransportadas = encomendasTransportadas;
+    }
+
+    public void addEncomendasTransportadas(int encomendasTransportadas) {
+        this.encomendasTransportadas += encomendasTransportadas;
+    }
 
     @Override
     public boolean equals(Object o) {

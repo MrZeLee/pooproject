@@ -78,6 +78,12 @@ public class Loja {
         this.password = password;
     }
 
+    public int tempo(){
+        int minPerqueue = 2;
+        int queueDefault = 4;
+        if(this.queue > 0) queueDefault = 4;
+        return minPerqueue*queueDefault;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -11,6 +11,7 @@ import Base.Encomenda.Encomenda;
 
 public class Transportadora {
     private String codEmpresa;
+    private String password;
     private String nomeEmpresa;
     private Coordenadas gps;
     private int nif;
@@ -21,12 +22,15 @@ public class Transportadora {
     private double priceKg;
     private TreeSet<Aceite> encomendasFeitas;
 
+    private double kmFeitos;
+
     public Transportadora() {
     }
 
 
-    public Transportadora(String codEmpresa, String nomeEmpresa, Coordenadas gps, int nif, double raio, double priceKm, boolean on, double priceKg, TreeSet<Aceite> encomendasFeitas) {
+    public Transportadora(String codEmpresa, String password, String nomeEmpresa, Coordenadas gps, int nif, double raio, double priceKm, boolean on, double priceKg, TreeSet<Aceite> encomendasFeitas, double kmFeitos) {
         this.codEmpresa = codEmpresa;
+        this.password = password;
         this.nomeEmpresa = nomeEmpresa;
         this.gps = gps.clone();
         this.nif = nif;
@@ -35,15 +39,17 @@ public class Transportadora {
         this.on = on;
         this.priceKg = priceKg;
         TreeSet<Aceite> encFeitas = new TreeSet<Aceite>();
-        for (Aceite encomenda : encomendasFeitas) {
-            encFeitas.add(encomenda.clone());
+        if(encomendasFeitas != null) {
+            for (Aceite encomenda : encomendasFeitas) {
+                encFeitas.add(encomenda.clone());
+            }
         }
         this.encomendasFeitas = encFeitas;
+        this.kmFeitos = 0.0;
     }
 
-
     public Transportadora(Transportadora x) {
-        this(x.codEmpresa, x.nomeEmpresa, x.gps, x.nif, x.raio, x.priceKm, x.on, x.priceKg, x.encomendasFeitas);
+        this(x.codEmpresa, x.password, x.nomeEmpresa, x.gps, x.nif, x.raio, x.priceKm, x.on, x.priceKg, x.encomendasFeitas, x.kmFeitos);
     }
 
     public String getCodEmpresa() {
@@ -52,6 +58,14 @@ public class Transportadora {
 
     public void setCodEmpresa(String codEmpresa) {
         this.codEmpresa = codEmpresa;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getNomeEmpresa() {
@@ -106,6 +120,10 @@ public class Transportadora {
         this.on = on;
     }
 
+    public boolean toogleOn() {
+        return (this.on = (this.on == false));
+    }
+
     public double getPriceKg() {
         return this.priceKg;
     }
@@ -139,6 +157,18 @@ public class Transportadora {
         for (Aceite aceite : encomendasFeitas) {
             this.encomendasFeitas.add(aceite.clone());
         }
+    }
+
+    public double getKmFeitos() {
+        return this.kmFeitos;
+    }
+
+    public void setKmFeitos(double kmFeitos) {
+        this.kmFeitos = kmFeitos;
+    }
+
+    public void addKmFeitos(double kmFeitos) {
+        this.kmFeitos += kmFeitos;
     }
 
     @Override
