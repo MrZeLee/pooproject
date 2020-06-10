@@ -6,6 +6,7 @@ import MVC.Model.Model;
 import MVC.Controller.Menu.Menu;
 import MVC.View.View;
 import MVC.Controller.Controller;
+import MVC.Controller.ControllerLoja;
 import MVC.Controller.ControllerTransportadora;
 import MVC.Controller.ControllerUtilizador;
 
@@ -37,7 +38,9 @@ public class Main {
                             viewU.run();
                             break;
                          case 2:
-                             //controller = new ControllerLoja(model);
+                             controller = new ControllerLoja(model);
+                             View viewL = new View(controller);
+                             viewL.run();
                              break;
                          case 3:
                             // controller = new ControllerVoluntario(model);

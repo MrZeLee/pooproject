@@ -56,6 +56,10 @@ public class Model{
         this.sinalizadas.add(e.clone());
     }
 
+    public void addSinalizadas(String e) {
+        addSinalizadas(new Aceite(e));
+    }
+
     public void addAceite(String transportadora, Aceite e) {
         this.sinalizadas.remove(e);
         this.encomendas.get(e.getCodEncomenda()).setCodTransportador(transportadora);
@@ -213,6 +217,14 @@ public class Model{
             System.out.println("Loja Does Not Exist");
         }
         return ret;
+    }
+
+	public boolean containsLoja(String loja) {
+		return this.lojas.containsKey(loja);
+    }
+    
+    public boolean passwordLoja(String loja, String pass) {
+        return this.lojas.get(loja).getPassword().equals(pass);
     }
     
 

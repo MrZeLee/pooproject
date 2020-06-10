@@ -26,6 +26,7 @@ public class ControllerLoja extends Controller {
 
     
     private ArrayList<Object> cache = new ArrayList<>(5);
+
     private String loja = new String();
 
     public ControllerLoja(Model model){
@@ -78,7 +79,7 @@ public class ControllerLoja extends Controller {
                 if(campos.length == 1) {
                     break;
                 }
-                if(((String) cache.get(4)).equals(campos[1])){
+                if(((String) cache.get(1)).equals(campos[1])){
                     this.setScreen(gpsRegister);
                 }
                 else {
@@ -108,7 +109,7 @@ public class ControllerLoja extends Controller {
                     } catch (NullPointerException e) {
                         this.setScreen(gpsRegister);
                     }
-                    cache.add(2,coordenadas);
+                    cache.add(coordenadas);
                     this.setScreen(lojaQueue);
                 }
                 else {
@@ -120,16 +121,22 @@ public class ControllerLoja extends Controller {
                 if(campos.length == 1) {
                     break;
                 }
-                cache.add(3,campos[1]);
-                this.setScreen(nomeRegister);
+                try {
+                    cache.add(Integer.valueOf(campos[1]));
+                    this.setScreen(nomeRegister);
+                } catch (NumberFormatException e) {
+                    this.setScreen(lojaQueue);
+                }
+                
+                
                 break;
                 
             case "Nome(Register)":
                 if(campos.length == 1) {
                     break;
                 }
-                cache.add(1, campos[1]);
-                this.getModel().addLoja(new Loja((String)cache.get(0), (String)cache.get(1), (Coordenadas)cache.get(2), (int)cache.get(3), (String)cache.get(4)));
+                cache.add(campos[1]);
+                this.getModel().addLoja(new Loja((String)cache.get(0), (String)cache.get(4), (Coordenadas)cache.get(2), (Integer)cache.get(3), (String)cache.get(1)));
                 cache.clear();
                 this.setScreen(getLogin());
             //LOGIN
@@ -140,7 +147,7 @@ public class ControllerLoja extends Controller {
                 if(campos[1] == "0") {
                     setScreen(lojaLogin);
                 }
-                if (this.getModel().contains(campos[1])) {
+                if (this.getModel().containsLoja(campos[1])) {
                     cache.add(campos[1]);
                     this.setScreen(password);
                 }
@@ -152,7 +159,7 @@ public class ControllerLoja extends Controller {
                 if(campos.length == 1) {
                     break;
                 }
-                if (this.getModel().password(((String) cache.get(0)), campos[1])) {
+                if (this.getModel().passwordLoja(((String) cache.get(0)), campos[1])) {
                     loja = campos[0];
                     cache.clear();
                     setScreen(loginSuccess);
@@ -188,8 +195,13 @@ public class ControllerLoja extends Controller {
                         break;
                     case "2":
                         List<String> list2 = new ArrayList<String>();
-                        list2.add("Verificar Queue");
-                        //usar no caso verificarqueue list2.add(String.valueOf(this.getModel().getQueueLoja(loja)));
+                        list2.add("Queue:");
+                        if (this.getModel().getQueueLoja(loja) == 0){
+                            list2.add("0");
+                        }
+                        else{
+                            list2.add(String.valueOf(this.getModel().getQueueLoja(loja)));
+                        }
                         setScreen(list2);
                     case "0":
                         loja = "";
@@ -209,11 +221,9 @@ public class ControllerLoja extends Controller {
                     int ret = Integer.parseInt(campos[1]);
                     if (ret<cache.size()){
                         String encomenda = (String)cache.get(ret);
+                        this.getModel().addSinalizadas(encomenda);
                         cache.clear();
-                        cache.add(encomenda);
-                        //this.getModel().addSinalizadas(cache.get(0));
-
-
+                        
                     }
                 }
 
