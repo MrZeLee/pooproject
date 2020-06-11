@@ -58,7 +58,7 @@ public class ControllerLoja extends Controller {
                 if (campos.length == 1){
                     break;
                 }
-                if (this.getModel().contains(campos[1])){
+                if (this.getModel().containsLoja(campos[1])){
                     this.setScreen(jaExiste);
                 }
                 else {
