@@ -138,7 +138,8 @@ public class ControllerLoja extends Controller {
                 cache.add(campos[1]);
                 this.getModel().addLoja(new Loja((String)cache.get(0), (String)cache.get(4), (Coordenadas)cache.get(2), (Integer)cache.get(3), (String)cache.get(1)));
                 cache.clear();
-                this.setScreen(getLogin());
+                this.setScreen(super.getLogin());
+                break;
             //LOGIN
             case "Loja(Login)":
                 if(campos.length == 1) {
@@ -148,6 +149,7 @@ public class ControllerLoja extends Controller {
                     setScreen(lojaLogin);
                 }
                 if (this.getModel().containsLoja(campos[1])) {
+                    loja = campos[1];
                     cache.add(campos[1]);
                     this.setScreen(password);
                 }
@@ -160,7 +162,6 @@ public class ControllerLoja extends Controller {
                     break;
                 }
                 if (this.getModel().passwordLoja(((String) cache.get(0)), campos[1])) {
-                    loja = campos[0];
                     cache.clear();
                     setScreen(loginSuccess);
                 }
@@ -177,7 +178,7 @@ public class ControllerLoja extends Controller {
                 this.setScreen(super.getLogin());
                 break;
             //MENU SHOP
-            case "Menu Loja":
+            case "Menu da Loja":
                 if(campos.length == 1) {
                     break;
                 }
@@ -203,6 +204,7 @@ public class ControllerLoja extends Controller {
                             list2.add(String.valueOf(this.getModel().getQueueLoja(loja)));
                         }
                         setScreen(list2);
+                        break;
                     case "0":
                         loja = "";
                         setScreen(this.getLogin());
@@ -226,6 +228,7 @@ public class ControllerLoja extends Controller {
                         
                     }
                 }
+                break;
 
         }
     }

@@ -60,10 +60,6 @@ public class Model{
         this.sinalizadas.add(e.clone());
     }
 
-    public void addSinalizadas(String e) {
-        addSinalizadas(new Aceite(e));
-    }
-
     public void addAceite(String transportadora, Aceite e) {
         this.sinalizadas.remove(e);
         this.encomendas.get(e.getCodEncomenda()).setCodTransportador(transportadora);
@@ -224,15 +220,7 @@ public class Model{
     }
 
     public int getQueueLoja(String codLoja){
-        int ret = 0;
-        try {
-                Loja newloja = this.lojas.get(codLoja);
-                ret = newloja.getQueue();
-        }
-        catch (Exception e) {
-            System.out.println("Loja Does Not Exist");
-        }
-        return ret;
+        return(this.lojas.get(codLoja).getQueue());
     }
 
 	public boolean containsLoja(String loja) {
