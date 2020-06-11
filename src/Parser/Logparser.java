@@ -24,25 +24,22 @@ public class Logparser {
     }
     
     public void parse(String nomefich){
-        List<String> linhas = lerFicheiro(nomefich); //alterar nome do ficheiro
+        List<String> linhas = lerFicheiro(nomefich);
         String[] linhaPartida;
         for (String linha : linhas) {
                 linhaPartida = linha.split(":", 2);
                 switch(linhaPartida[0]){
                     case "Utilizador": 
-                        Utilizador u = parseUtilizador(linhaPartida[1]); // criar um Utilizador
+                        Utilizador u = parseUtilizador(linhaPartida[1]);
                         parsed.addUtilizador(u);
-                       //System.out.println(u.toString()); //enviar para o ecra apenas para teste
                         break;
                     case "Loja": 
                         Loja l = parseLoja(linhaPartida[1]);
                         parsed.addLoja(l);
-                       //System.out.println(l.toString());
                         break;
                     case "Voluntario":
                         Voluntario v = parseVoluntario(linhaPartida[1]);
                         parsed.addVoluntario(v);
-                       //System.out.println(v.toString());
                         break;
                     case "Transportadora":
                         Transportadora t = parseTransportadora(linhaPartida[1]);
@@ -159,7 +156,6 @@ public class Logparser {
         Aceite a = new Aceite(campos[0]);
         return a;
     }
-
 
     public List<String> lerFicheiro(String nomeFich) {
         List<String> lines = new ArrayList<>();

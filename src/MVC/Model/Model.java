@@ -67,6 +67,12 @@ public class Model{
         this.aceite.add(e.clone());
     }
 
+    public void removeAceite(Aceite e) {
+        this.aceite.remove(e);
+        this.encomendas.get(e.getCodEncomenda()).setCodTransportador("");
+        this.sinalizadas.add(e);
+    }
+
     public void addEntregues(Aceite e) {
         this.aceite.remove(e);
         this.entregues.add(e.clone());
@@ -296,6 +302,38 @@ public class Model{
         e.setTimePassed(time);
         e.setCusto(preco(encomenda));
         e.setReceived(LocalDateTime.now().plusMinutes(time));
+    }
+
+
+
+    //VOLUNTÁRIO
+
+	public boolean containsVoluntario(String string) {
+		return this.voluntarios.containsKey(string);
+    }
+
+    public Pair<List<String>,List<String>> getEncomendasVoluntario(String codVoluntario) {
+        Pair<List<String>,List<String>> ret = new Pair<>();
+        List<String> first = new ArrayList<>();
+        List<String> second = new ArrayList<>();
+        for (Aceite aceite : this.aceite) {
+            Encomenda x = this.encomendas.get(aceite.getCodEncomenda());
+            if(x.getCodTransportador().equals(codVoluntario)) {
+                first.add(x.getCodEncomenda());
+                second.add(x.toString());
+            }
+        }
+        ret.setFirst(first);
+        ret.setSecond(second);
+        return ret;
+    }
+    
+    public boolean passwordVoluntario(String vol, String pass) {
+        return this.voluntarios.get(vol).getPassword().equals(pass);
+    }
+
+    public int toggleVoluntario(String codvoluntario) {
+        return (this.voluntarios.get(codvoluntario).toogleOn() ? 1 : 0);
     }
 
 }

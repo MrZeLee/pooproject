@@ -9,6 +9,7 @@ import MVC.Controller.Controller;
 import MVC.Controller.ControllerLoja;
 import MVC.Controller.ControllerTransportadora;
 import MVC.Controller.ControllerUtilizador;
+import MVC.Controller.ControllerVoluntario;
 
 public class Main {
     public static void main(String[] args) {
@@ -52,9 +53,9 @@ public class Main {
                              viewL.run();
                              break;
                          case 3:
-                            // controller = new ControllerVoluntario(model);
-                            // View viewV = new View(controller);
-                            // viewV.run();
+                             controller = new ControllerVoluntario(model);
+                             View viewV = new View(controller);
+                             viewV.run();
                              break;
                          case 4:
                             controller = new ControllerTransportadora(model); 

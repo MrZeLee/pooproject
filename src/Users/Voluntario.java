@@ -11,6 +11,7 @@ public class Voluntario {
     private String nome;
     private Coordenadas gps;
     private double raio;
+    private String password;
 
     private boolean livre;
 
@@ -21,12 +22,13 @@ public class Voluntario {
      * @param gps
      * @param raio
      */
-    public Voluntario(String nome, String codVoluntario, Coordenadas gps, double raio) {
+    public Voluntario(String nome,String password, String codVoluntario, Coordenadas gps, double raio, boolean livre) {
         this.nome = nome;
         this.codVoluntario = codVoluntario;
         this.gps = gps.clone();
         this.raio = raio;
-        this.livre = false;
+        this.livre = livre;
+        this.password = password;
     }
 
     /**
@@ -38,6 +40,7 @@ public class Voluntario {
         this.gps = new Coordenadas();
         this.raio = 0;
         this.livre = false;
+        this.password = new String();
     }
 
     /**
@@ -50,6 +53,7 @@ public class Voluntario {
         this.gps = v.getGps();
         this.raio = v.getRaio();
         this.livre = v.getLivre();
+        this.password = v.getPassword();
     }
 
     /**
@@ -98,6 +102,18 @@ public class Voluntario {
 
     public void setLivre(boolean livre) {
         this.livre = livre;
+    }
+
+    public boolean toogleOn() {
+        return (this.livre = (this.livre == false));
+    }
+    
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 
