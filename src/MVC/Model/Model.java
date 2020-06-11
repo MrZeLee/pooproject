@@ -80,6 +80,9 @@ public class Model{
 
     // SO PARA ENCOMENDAS POR TRANSPORTADORA
     
+    public boolean containsEncomenda(String encomenda) {
+        return this.encomendas.containsKey(encomenda);
+    }
 
     //UTILIZADOR
 
@@ -206,6 +209,20 @@ public class Model{
         this.encomendas.get(e).setRating(rating);
     }
 
+    public Pair<List<String>,List<String>> getLojas() {
+        Pair<List<String>,List<String>> ret = new Pair<>();
+        List<String> first = new ArrayList<>();
+        List<String> second = new ArrayList<>();
+
+        for (Loja l : this.lojas.values()) {
+            first.add(l.getCodLoja());
+            second.add(l.getNomeLoja());
+        }
+        ret.setFirst(first);
+        ret.setSecond(second);
+        return ret;
+    }
+
 
     // LOJA
 
@@ -271,6 +288,13 @@ public class Model{
         ret.setFirst(first);
         ret.setSecond(second);
         return ret;
+    }
+
+    public void setEncomenda(String encomenda, int time) {
+        Encomenda e = this.encomendas.get(encomenda);
+        e.setTimePassed(time);
+        e.setCusto(preco(encomenda));
+        e.setReceived(LocalDateTime.now().plusMinutes(time));
     }
 
 }

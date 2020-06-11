@@ -8,9 +8,12 @@ import java.util.List;
 import Base.Basic.Coordenadas;
 import Base.Basic.Pair;
 import Base.Encomenda.Aceite;
+import Base.Encomenda.Encomenda;
+import Base.Encomenda.LinhaEncomenda;
 import MVC.Controller.Menu.Menu;
 import MVC.Model.Model;
 import Users.Utilizador;
+import java.util.Random;
 
 public class ControllerUtilizador extends Controller{
 
@@ -24,7 +27,7 @@ public class ControllerUtilizador extends Controller{
     private final String[] gpsRegister = {"GPS(Register)_0.0,0.0"};
     private final String[] nomeRegister = {"Nome(Register)"};
     private final String[] passwordErrada = {"Password Errada"};
-    private final String[] loginSucess = {"Menu Utilizador", "Solicitar Entrega de Encomenda ~ Voluntário", "Solicitar Entrega de Encomenda ~ Transportadora", "Entregas Efetuadas", "Classificar Ultima Entrega"};
+    private final String[] loginSucess = {"Menu Utilizador", "Solicitar Entrega de Encomenda ~ Voluntário", "Solicitar Entrega de Encomenda ~ Transportadora", "Entregas Efetuadas", "Classificar Ultima Entrega", "Adicionar Encomenda"};
     private final String[] chosePeriodoType = {"Periodo~Escolha", "Todos", "Voluntários", "Transportadoras"};
 
     private final String[] quit = {"quit"};
@@ -204,6 +207,13 @@ public class ControllerUtilizador extends Controller{
                         list11.add(0,"Ratings");
                         setScreen(list11);
                         break;
+                    case "5":
+                        Pair<List<String>,List<String>> list12 = this.getModel().getLojas();
+                        cache.add(list12.getFirst());
+                        List<String> list13 = list12.getSecond();
+                        list13.add(0,"Lojas");
+                        setScreen(list13);
+                        break;
                     case "0":
                         utilizador = "";
                         setScreen(this.getLogin());
@@ -368,6 +378,66 @@ public class ControllerUtilizador extends Controller{
                     this.getModel().SetRating((String) cache.get(0), Double.parseDouble(campos[1]));
                     cache.clear();
                     this.setScreen(loginSucess);
+                }
+                break;
+            case "Lojas":
+                if(campos.length == 1) {
+                    break;
+                }
+                if(campos[1].equals("0")) {
+                    this.setScreen(loginSucess);
+                    cache.clear();
+                }
+                else if (campos[1].matches("^[0-9]+$")) {
+                    int ret = Integer.parseInt(campos[1]);
+                    ArrayList<String> list12 = (ArrayList<String>) cache.get(0);
+                    if(ret <= list12.size()) {
+                        this.setScreen(new Menu("Encomenda_" + "(CodigoProduto,descricao,quantidade,valor unitario, peso)"));
+                        cache.clear();
+                        
+                        cache.add(new Encomenda("", utilizador, list12.get(ret-1), 0, null));
+                    }
+                }
+                break;
+            case "Encomenda":
+                if(campos.length == 1) {
+                    break;
+                }
+                if(campos[1].equals("0")) {
+                    this.setScreen(loginSucess);
+                    String random = ((Integer) (new Random()).nextInt(10000)).toString();
+                    String paddedNumberAsString = "0000".substring(random.length()) + random;
+                    while(this.getModel().containsEncomenda(paddedNumberAsString)) {
+                        random = ((Integer) (new Random()).nextInt(10000)).toString();
+                        paddedNumberAsString = "0000".substring(random.length()) + random;
+                    }
+                    Encomenda x = (Encomenda) cache.get(0);
+                    x.setCodEncomenda(paddedNumberAsString);
+                    if(!x.listaEmpty()) {
+                        this.getModel().addEncomendas(x);
+                    }
+                    cache.clear();
+                }
+                else {
+                    String linhas[] = campos[1].split(",");
+                    int quantidade;
+                    double valorU;
+                    double peso;
+                    if(linhas.length == 5) {
+                        try {
+                            if(linhas[0].isEmpty()) break;
+                            if(linhas[1].isEmpty()) break;
+                            if((quantidade = Integer.parseInt(linhas[2])) <= 0) break;
+                            if((valorU = Double.parseDouble(linhas[3])) <= 0.0) break;
+                            if((peso = Double.parseDouble(linhas[4])) <= 0.0) break;
+                            Encomenda x = (Encomenda) cache.get(0);
+                            x.addPeso(peso);
+                            x.addLinhaEncomenda(new LinhaEncomenda(linhas[0], linhas[1], quantidade, valorU));
+                            this.setScreen(new Menu("Encomenda_" + "(CodigoProduto,descricao,quantidade,valor unitario, peso)"));
+                        } catch (NumberFormatException e) {
+                        } catch (NullPointerException e) {
+                        }
+                    }
                 }
                 break;
         }

@@ -21,7 +21,7 @@ public class Encomenda implements Comparator<Encomenda> {
 
     private LocalDateTime criation;
 
-    private double timePassed;
+    private int timePassed;
     private LocalDateTime received;
     private double custo = -1;
 
@@ -39,11 +39,14 @@ public class Encomenda implements Comparator<Encomenda> {
         this.codLoja = codLoja;
         this.peso = peso;
         this.lista = new ArrayList<LinhaEncomenda>();
-        for (LinhaEncomenda linhaEncomenda : lista) {
-            this.lista.add(linhaEncomenda);
+        if(lista != null) {
+            for (LinhaEncomenda linhaEncomenda : lista) {
+                this.lista.add(linhaEncomenda);
+            }
         }
         this.criation = LocalDateTime.now();
         this.rating = -1.0;
+        this.timePassed = 0;
     }
 
     public Encomenda(Encomenda x) {
@@ -83,6 +86,14 @@ public class Encomenda implements Comparator<Encomenda> {
         this.peso = peso;
     }
 
+    public void addPeso(double peso) {
+        this.peso += peso;
+    }
+
+    public boolean listaEmpty() {
+        return this.lista.size() == 0;
+    }
+
     public ArrayList<LinhaEncomenda> getLista() {
         ArrayList<LinhaEncomenda> ret = new ArrayList<>();
 
@@ -98,6 +109,10 @@ public class Encomenda implements Comparator<Encomenda> {
         for (LinhaEncomenda linhaEncomenda : lista) {
             this.lista.add(linhaEncomenda);
         }
+    }
+
+    public void addLinhaEncomenda(LinhaEncomenda x) {
+        this.lista.add(x.clone());
     }
 
     public LocalDateTime getCriation() {
@@ -140,6 +155,14 @@ public class Encomenda implements Comparator<Encomenda> {
 
     public void setCusto(double custo) {
         this.custo = custo;
+    }
+
+    public int getTimePassed() {
+        return this.timePassed;
+    }
+
+    public void setTimePassed(int timePassed) {
+        this.timePassed = timePassed;
     }
 
     @Override

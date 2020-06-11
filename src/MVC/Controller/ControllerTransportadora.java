@@ -5,6 +5,7 @@ import java.util.List;
 
 import Base.Basic.Coordenadas;
 import Base.Basic.Pair;
+import Base.Encomenda.Aceite;
 import MVC.Controller.Menu.Menu;
 import MVC.Model.Model;
 import Users.Transportadora;
@@ -248,6 +249,13 @@ public class ControllerTransportadora extends Controller{
                         setScreen(list);
                         break;
                     case "3":
+                        Pair<List<String>,List<String>> listss = this.getModel().getEncomendasTransportadora(transportadora);
+                        List<String> list1 = listss.getSecond();
+                        list1.add(0,"Escolher Encomenda(Entregar)");
+                        for (String string : listss.getSecond()) {
+                            cache.add(string);
+                        }
+                        setScreen(list1);
                         break;
                     case "0":
                         transportadora = "";
@@ -276,6 +284,42 @@ public class ControllerTransportadora extends Controller{
             case "Preço":
                 cache.clear();
                 setScreen(loginSucess[this.on]);
+                break;
+            case "Escolher Encomenda(Entregar)":
+                if(campos.length == 1) {
+                    break;
+                }
+                if(campos[1].equals("0")) {
+                    this.setScreen(loginSucess[this.on]);
+                    cache.clear();
+                }
+                else if (campos[1].matches("^[0-9]+$")) {
+                    int ret = Integer.parseInt(campos[1]);
+                    if(ret < cache.size()) {
+                        String encomenda = (String) cache.get(ret);
+                        cache.clear();
+                        cache.add(encomenda);
+                        Double preco = this.getModel().preco(encomenda);
+
+                        setScreen(new Menu("Adicionar Tempo em Minutos_Preço:" + preco.toString() + "€"));
+                    }
+                }
+                break;
+            case "Adicionar Tempo em Minutos":
+                if(campos.length == 1) {
+                    break;
+                }
+                if(campos[1].equals("0")) {
+                    this.setScreen(loginSucess[this.on]);
+                    cache.clear();
+                }
+                else if (campos[1].matches("^[0-9]+$")) {
+                    int min = Integer.parseInt(campos[1]);
+                    this.getModel().setEncomenda((String) cache.get(0), min);
+                    this.getModel().addEntregues(new Aceite((String) cache.get(0)));
+                    cache.clear();
+                    this.setScreen(loginSucess[this.on]);
+                }
                 break;
         }
         return;

@@ -53,8 +53,6 @@ public class Main {
                             System.out.println("No Valid Input Given!");
                              break;
                     }
-                     
-                    
                 }
             });
         }
