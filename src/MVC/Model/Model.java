@@ -388,7 +388,7 @@ public class Model implements Serializable{
 
 			@Override
 			public int compare(Transportadora o1, Transportadora o2) {
-                int ret = Double.compare(Double.valueOf(o1.getKmFeitos()), Double.valueOf(o2.getKmFeitos()));
+                int ret = Double.compare(Double.valueOf(o2.getKmFeitos()), Double.valueOf(o1.getKmFeitos()));
                 if(ret == 0) ret = 1;
                 return ret;
 			}
@@ -411,7 +411,7 @@ public class Model implements Serializable{
 
 			@Override
 			public int compare(Utilizador o1, Utilizador o2) {
-                int ret = Integer.compare(o1.getEncomendasFeitas().size(), o2.getEncomendasFeitas().size());
+                int ret = Integer.compare(o2.getEncomendasFeitas().size(), o1.getEncomendasFeitas().size());
                 if(ret == 0) ret = 1;
                 return ret;
 			}
