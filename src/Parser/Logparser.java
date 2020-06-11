@@ -4,10 +4,8 @@ import java.util.*;
 import java.nio.file.*;
 import java.nio.charset.*;
 import java.io.*;
-import Base.*;
 import Base.Basic.Coordenadas;
 import Base.Encomenda.Aceite;
-//import Basic.*;
 import MVC.Model.Model;
 import Base.Encomenda.Encomenda;
 import Base.Encomenda.LinhaEncomenda;
@@ -16,9 +14,17 @@ import Users.*;
 
 public class Logparser {
     Model parsed = new Model();
+
+    public Model getParsed() {
+        return this.parsed;
+    }
+
+    public void setParsed(Model parsed) {
+        this.parsed = parsed;
+    }
     
-    public void parse(){
-        List<String> linhas = lerFicheiro("LogsGerados.csv"); //alterar nome do ficheiro
+    public void parse(String nomefich){
+        List<String> linhas = lerFicheiro(nomefich); //alterar nome do ficheiro
         String[] linhaPartida;
         for (String linha : linhas) {
                 linhaPartida = linha.split(":", 2);
@@ -45,6 +51,7 @@ public class Logparser {
                         break;
                     case "Encomenda":
                         Encomenda e = parseEncomenda(linhaPartida[1]);
+                        if (e == null) break;
                         parsed.addEncomendas(e);
                         //System.out.println(e.toString());
                         break;
@@ -58,7 +65,7 @@ public class Logparser {
                         break;
                 }
         }
-        System.out.println("done!");
+        System.out.println("Parsing done!");
     }
                                 
 
@@ -66,8 +73,8 @@ public class Logparser {
         Utilizador u = new Utilizador();
         Coordenadas xy = new Coordenadas();
         String[] campos = input.split(",");
-        String nome = campos[0]; 
-        String codUtilizador = campos[1];
+        String nome = campos[1]; 
+        String codUtilizador = campos[0];
         double gpsx = Double.parseDouble(campos[2]);
         double gpsy = Double.parseDouble(campos[3]);
         xy.setLatitude(gpsx);
@@ -75,6 +82,7 @@ public class Logparser {
         u.setNome(nome);
         u.setCodUtilizador(codUtilizador);
         u.setGps(xy);
+        u.setPassword("admin");
         return u;
     }
 
@@ -89,6 +97,7 @@ public class Logparser {
         l.setCodLoja(codLoja);
         l.setNomeLoja(nomeLoja);
         l.setGps(xy);
+        l.setPassword("admin");
         return l;
     }
 
@@ -110,6 +119,9 @@ public class Logparser {
         Encomenda e = new Encomenda();
         String[] campos = input.split(",");
         int conta = 0;
+        if (!(parsed.contains(campos[1]) && parsed.containsLoja(campos[2]))){
+            return null;
+        }
         e.setCodEncomenda(campos[conta++]);
         e.setCodUtilizador(campos[conta++]);
         e.setCodLoja(campos[conta++]);
@@ -129,14 +141,15 @@ public class Logparser {
         Transportadora t = new Transportadora();
         Coordenadas xy = new Coordenadas();
         String[] campos = input.split(",");
-        t.setCodEmpresa(campos[1]);
-        t.setNomeEmpresa(campos[2]);
-        xy.setLatitude(Double.parseDouble(campos[3]));
-        xy.setLongitude(Double.parseDouble(campos[4]));
+        t.setCodEmpresa(campos[0]);
+        t.setNomeEmpresa(campos[1]);
+        xy.setLatitude(Double.parseDouble(campos[2]));
+        xy.setLongitude(Double.parseDouble(campos[3]));
         t.setGps(xy);
-        t.setNif(Integer.parseInt(campos[5]));
-        t.setRaio(Double.parseDouble(campos[6]));
-        t.setPriceKm(Double.parseDouble(campos[7]));
+        t.setNif(Integer.parseInt(campos[4]));
+        t.setRaio(Double.parseDouble(campos[5]));
+        t.setPriceKm(Double.parseDouble(campos[6]));
+        t.setPassword("admin");
         return t;
     }
 

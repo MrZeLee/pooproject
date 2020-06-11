@@ -41,7 +41,7 @@ public class Model implements Serializable{
     }
 
     public void addUtilizador(Utilizador l) {
-        this.utilizadores.put(l.getEmail(), l.clone());
+        this.utilizadores.put(l.getCodUtilizador(), l.clone());
     }
 
     public void addVoluntario(Voluntario l) {

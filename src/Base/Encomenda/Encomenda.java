@@ -22,7 +22,7 @@ public class Encomenda implements Comparable, Comparator<Encomenda>, Serializabl
 
     private LocalDateTime criation;
 
-    private int timePassed;
+    private int timePassed = 0;
     private LocalDateTime received;
     private double custo = -1;
 
@@ -32,6 +32,9 @@ public class Encomenda implements Comparable, Comparator<Encomenda>, Serializabl
     
 
     public Encomenda() {
+        this.lista = new ArrayList<LinhaEncomenda>();
+        this.criation = LocalDateTime.now();
+
     }
 
     public Encomenda(String codEncomenda, String codUtilizador, String codLoja, double peso, ArrayList<LinhaEncomenda> lista) {

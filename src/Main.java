@@ -1,8 +1,8 @@
 import javax.swing.SwingUtilities;
-
 import MVC.Model.Model;
 import MVC.Controller.Menu.Menu;
 import MVC.View.View;
+import Parser.Logparser;
 import MVC.Controller.Controller;
 import MVC.Controller.ControllerLoja;
 import MVC.Controller.ControllerTransportadora;
@@ -10,11 +10,22 @@ import MVC.Controller.ControllerUtilizador;
 
 public class Main {
     public static void main(String[] args) {
-        Model model = new Model();
+        Model model;
+
+
+        if (args.length > 0){
+            Logparser logs = new Logparser();
+            logs.parse(args[0]);
+            model = logs.getParsed();
+        }
+        else{
+            model = new Model();
+        }
+
+        
         int option = -1;
         String[] mainOptions = { "Menu", "Utilizador", "Loja", "Voluntario", "Transportadora", "Top10EmpresasKm", "Top10Utilizadores" };
         Menu m = new Menu(mainOptions);
-        //Controller controller = null;
 
         while (option != 0) {
             System.out.println(m.toString());
@@ -24,9 +35,7 @@ public class Main {
             
                 @Override
                 public void run() {
-                    //Controller controller = new ControllerUtilizador(model);
-                    
-                    switch (innerop) {       
+                    switch (innerop) {
                          case 0:
                             System.out.println("See you again!");
                             break;
