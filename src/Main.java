@@ -2,6 +2,7 @@ import javax.swing.SwingUtilities;
 import MVC.Model.Model;
 import MVC.Controller.Menu.Menu;
 import MVC.View.View;
+import Parser.GestVendas;
 import Parser.Logparser;
 import MVC.Controller.Controller;
 import MVC.Controller.ControllerLoja;
@@ -15,9 +16,13 @@ public class Main {
 
 
         if (args.length > 0){
-            Logparser logs = new Logparser();
-            logs.parse(args[0]);
-            model = logs.getParsed();
+            if(args[0].equals("save.dat")) {
+                model = GestVendas.read("save.dat");
+            } else {
+                Logparser logs = new Logparser();
+                logs.parse(args[0]);
+                model = logs.getParsed();
+            }
         }
         else{
             model = new Model();
@@ -25,7 +30,7 @@ public class Main {
 
         
         int option = -1;
-        String[] mainOptions = { "Menu", "Utilizador", "Loja", "Voluntario", "Transportadora", "Top10EmpresasKm", "Top10Utilizadores" };
+        String[] mainOptions = { "Menu", "Utilizador", "Loja", "Voluntario", "Transportadora", "Top10EmpresasKm", "Top10Utilizadores", "Save" };
         Menu m = new Menu(mainOptions);
 
         while (option != 0) {
@@ -69,6 +74,9 @@ public class Main {
                             for (String string : model.top10Utilizadores()) {
                                 System.out.println(string);
                             }
+                            break;
+                        case 7:
+                            GestVendas.save("save.dat", model);
                             break;
                          default:
                             System.out.println("No Valid Input Given!");
