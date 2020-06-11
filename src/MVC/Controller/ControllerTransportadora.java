@@ -24,8 +24,8 @@ public class ControllerTransportadora extends Controller{
     private final String[] raio = {"Raio"};
     private final String[] nomeRegister = {"Nome(Register)"};
     private final String[] passwordErrada = {"Password Errada"};
-    private final String[][] loginSucess = {{"Menu Transportadora", "Toogle On", "Solicitar Entrega de Encomenda ~ Transportadora", "Entregas Efetuadas", "Classificar Ultima Entrega"},
-                                            {"Menu Transportadora", "Toogle Off", "Solicitar Entrega de Encomenda ~ Transportadora", "Entregas Efetuadas", "Classificar Ultima Entrega"}};
+    private final String[][] loginSucess = {{"Menu Transportadora", "Toogle On", "Encomenda Preço", "Entregar"},
+                                            {"Menu Transportadora", "Toogle Off", "Encomenda Preço", "Entregar"}};
 
     private final String[] quit = {"quit"};
     private int on = 0;
@@ -243,7 +243,7 @@ public class ControllerTransportadora extends Controller{
                         Pair<List<String>,List<String>> lists = this.getModel().getEncomendasTransportadora(transportadora);
                         List<String> list = lists.getSecond();
                         list.add(0,"Escolher Encomenda(Preço)");
-                        for (String string : lists.getSecond()) {
+                        for (String string : lists.getFirst()) {
                             cache.add(string);
                         }
                         setScreen(list);
@@ -252,7 +252,7 @@ public class ControllerTransportadora extends Controller{
                         Pair<List<String>,List<String>> listss = this.getModel().getEncomendasTransportadora(transportadora);
                         List<String> list1 = listss.getSecond();
                         list1.add(0,"Escolher Encomenda(Entregar)");
-                        for (String string : listss.getSecond()) {
+                        for (String string : listss.getFirst()) {
                             cache.add(string);
                         }
                         setScreen(list1);
@@ -273,8 +273,8 @@ public class ControllerTransportadora extends Controller{
                 }
                 else if (campos[1].matches("^[0-9]+$")) {
                     int ret = Integer.parseInt(campos[1]);
-                    if(ret < cache.size()) {
-                        String encomenda = (String) cache.get(ret);
+                    if(ret <= cache.size()) {
+                        String encomenda = (String) cache.get(ret-1);
                         cache.clear();
                         Double preco = this.getModel().preco(encomenda);
                         setScreen(new Menu("Preço_" + preco.toString() + "€"));
@@ -295,8 +295,8 @@ public class ControllerTransportadora extends Controller{
                 }
                 else if (campos[1].matches("^[0-9]+$")) {
                     int ret = Integer.parseInt(campos[1]);
-                    if(ret < cache.size()) {
-                        String encomenda = (String) cache.get(ret);
+                    if(ret <= cache.size()) {
+                        String encomenda = (String) cache.get(ret-1);
                         cache.clear();
                         cache.add(encomenda);
                         Double preco = this.getModel().preco(encomenda);

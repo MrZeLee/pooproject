@@ -49,6 +49,7 @@ public class Model{
     public void addEncomendas(Encomenda e) {
         this.encomendas.put(e.getCodEncomenda(), e.clone());
         this.loja.add(new Aceite(e));
+        this.utilizadores.get(e.getCodUtilizador()).addEncomendasFeitas(e);
     }
 
     public void addSinalizadas(String e) {

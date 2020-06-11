@@ -5,6 +5,7 @@ import java.util.TreeSet;
 
 import Base.Basic.Coordenadas;
 import Base.Encomenda.Aceite;
+import Base.Encomenda.Encomenda;
 
 public class Utilizador {
     private String codUtilizador;
@@ -14,23 +15,20 @@ public class Utilizador {
     private Coordenadas gps;
     private TreeSet<Aceite> encomendasFeitas;
 
-    private int encomendasTransportadas;
-
     public Utilizador() {
     }
 
-    public Utilizador(String codUtilizador, String nome, String email, String password, Coordenadas gps, int encomendasTransportadas) {
+    public Utilizador(String codUtilizador, String nome, String email, String password, Coordenadas gps) {
         this.codUtilizador = codUtilizador;
         this.nome = nome;
         this.email = email;
         this.password = password;
         this.gps = gps.clone();
         this.encomendasFeitas = new TreeSet<Aceite>();
-        this.encomendasTransportadas = encomendasTransportadas;
     }
 
     public Utilizador(Utilizador x) {
-        this(x.codUtilizador,x.nome,x.email,x.password,x.gps, x.encomendasTransportadas);
+        this(x.codUtilizador,x.nome,x.email,x.password,x.gps);
         this.encomendasFeitas = getEncomendasFeitas();
     }
 
@@ -90,17 +88,18 @@ public class Utilizador {
         }
     }
 
-    public int getEncomendasTransportadas() {
-        return this.encomendasTransportadas;
+    public void addEncomendasFeitas(Aceite e) {
+        this.encomendasFeitas.add(e.clone());
     }
 
-    public void setEncomendasTransportadas(int encomendasTransportadas) {
-        this.encomendasTransportadas = encomendasTransportadas;
+    public void addEncomendasFeitas(String codEncomenda) {
+        addEncomendasFeitas(new Aceite(codEncomenda));
     }
 
-    public void addEncomendasTransportadas(int encomendasTransportadas) {
-        this.encomendasTransportadas += encomendasTransportadas;
+    public void addEncomendasFeitas(Encomenda e) {
+        addEncomendasFeitas(new Aceite(e));
     }
+
 
     @Override
     public boolean equals(Object o) {

@@ -2,7 +2,7 @@ package Base.Encomenda;
 
 import java.util.Objects;
 
-public class Aceite {
+public class Aceite implements Comparable{
     String codEncomenda;
 
     public Aceite() {
@@ -58,5 +58,10 @@ public class Aceite {
 
     public Aceite clone(){
         return new Aceite(this);
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.getCodEncomenda().compareTo(((Aceite) o).getCodEncomenda());
     }
 }

@@ -221,11 +221,11 @@ public class ControllerLoja extends Controller {
                 }
                 else if (campos[1].matches("^[0-9]+$")){
                     int ret = Integer.parseInt(campos[1]);
-                    if (ret<cache.size()){
+                    if (ret<=cache.size()){
                         String encomenda = (String)cache.get(ret);
                         this.getModel().addSinalizadas(encomenda);
                         cache.clear();
-                        
+                        this.setScreen(loginSuccess);
                     }
                 }
                 break;

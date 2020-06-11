@@ -129,7 +129,7 @@ public class ControllerUtilizador extends Controller{
                 if(campos.length == 1) {
                     break;
                 }
-                this.getModel().addUtilizador(new Utilizador(((String) cache.get(0)), campos[1], ((String) cache.get(0)), ((String) cache.get(1)), new Coordenadas(((Double) cache.get(2)), ((Double) cache.get(3))), 0));
+                this.getModel().addUtilizador(new Utilizador(((String) cache.get(0)), campos[1], ((String) cache.get(0)), ((String) cache.get(1)), new Coordenadas(((Double) cache.get(2)), ((Double) cache.get(3)))));
                 cache.clear();
                 this.setScreen(getLogin());
                 break;
@@ -183,7 +183,7 @@ public class ControllerUtilizador extends Controller{
                         Pair<List<String>,List<String>> lists = this.getModel().getEncomendas(utilizador);
                         List<String> list = lists.getSecond();
                         list.add(0,"Solicitar Entrega de Encomenda ~ Voluntário");
-                        for (String string : lists.getSecond()) {
+                        for (String string : lists.getFirst()) {
                             cache.add(string);
                         }
                         setScreen(list);
@@ -192,7 +192,7 @@ public class ControllerUtilizador extends Controller{
                         Pair<List<String>,List<String>> listss = this.getModel().getEncomendas(utilizador);
                         List<String> list2 = listss.getSecond();
                         list2.add(0,"Solicitar Entrega de Encomenda ~ Transportadora");
-                        for (String string : listss.getSecond()) {
+                        for (String string : listss.getFirst()) {
                             cache.add(string);
                         }
                         setScreen(list2);
@@ -230,15 +230,21 @@ public class ControllerUtilizador extends Controller{
                 }
                 else if (campos[1].matches("^[0-9]+$")) {
                     int ret = Integer.parseInt(campos[1]);
-                    if(ret < cache.size()) {
-                        String encomenda = (String) cache.get(ret);
+                    if(ret <= cache.size()) {
+                        String encomenda = (String) cache.get(ret-1);
                         cache.clear();
                         cache.add(encomenda);
                         Pair<List<String>,List<String>> list2 = this.getModel().getVoluntarios(encomenda);
-                        cache.add(list2.getFirst());
-                        List<String> list3 = list2.getSecond();
-                        list3.add(0,"Escolhas Voluntario");
-                        setScreen(list3);
+                        if(list2.getFirst().size() == 0) {
+                            cache.clear();
+                            this.setScreen(loginSucess);
+                        }
+                        else {
+                            cache.add(list2.getFirst());
+                            List<String> list3 = list2.getSecond();
+                            list3.add(0,"Escolhas Voluntario");
+                            setScreen(list3);
+                        }
                     }
                 }
                 break;
@@ -252,15 +258,22 @@ public class ControllerUtilizador extends Controller{
                 }
                 else if (campos[1].matches("^[0-9]+$")) {
                     int ret = Integer.parseInt(campos[1]);
-                    if(ret < cache.size()) {
-                        String encomenda = (String) cache.get(ret);
+                    if(ret <= cache.size()) {
+                        String encomenda = (String) cache.get(ret-1);
                         cache.clear();
                         cache.add(encomenda);
                         Pair<List<String>,List<String>> list2 = this.getModel().getTransportadoras(encomenda);
-                        cache.add(list2.getFirst());
-                        List<String> list3 = list2.getSecond();
-                        list3.add(0,"Escolhas Transportadoras");
-                        setScreen(list3);
+                        if(list2.getFirst().size() == 0) {
+                            cache.clear();
+                            this.setScreen(loginSucess);
+                            break;
+                        }
+                        else {
+                            cache.add(list2.getFirst());
+                            List<String> list3 = list2.getSecond();
+                            list3.add(0,"Escolhas Transportadoras");
+                            setScreen(list3);
+                        }
                     }
                 }
                 break;
@@ -412,7 +425,7 @@ public class ControllerUtilizador extends Controller{
                         paddedNumberAsString = "0000".substring(random.length()) + random;
                     }
                     Encomenda x = (Encomenda) cache.get(0);
-                    x.setCodEncomenda(paddedNumberAsString);
+                    x.setCodEncomenda("e" + paddedNumberAsString);
                     if(!x.listaEmpty()) {
                         this.getModel().addEncomendas(x);
                     }

@@ -11,7 +11,7 @@ import MVC.Model.Model;
  * Encomenda
  */
 
-public class Encomenda implements Comparator<Encomenda> {
+public class Encomenda implements Comparable, Comparator<Encomenda> {
     private String codEncomenda;
     private String codUtilizador;
     private String codLoja;
@@ -254,5 +254,10 @@ public class Encomenda implements Comparator<Encomenda> {
     @Override
     public int compare(Encomenda o1, Encomenda o2) {
         return o1.codEncomenda.compareTo(o2.codEncomenda);
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.codEncomenda.compareTo(((Encomenda) o).codEncomenda);
     }
 }
