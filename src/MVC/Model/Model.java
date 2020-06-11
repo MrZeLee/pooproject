@@ -28,6 +28,10 @@ public class Model implements Serializable{
     private TreeSet<Aceite> aceite = new TreeSet<Aceite>();// transferidas das sinalizads para aceite quando o user aprova, estas sao vistas pelos voluntarios e transportadoras
     private TreeSet<Aceite> entregues = new TreeSet<Aceite>(); //entregues pelas transportadoras e viluntarios, o utilizador já pode dar rating
 
+    public Model(){
+        
+    }
+
     public Model(Model x){
         this.lojas = x.lojas;
         this.transportadoras = x.transportadoras;
@@ -38,9 +42,6 @@ public class Model implements Serializable{
         this.sinalizadas = x.sinalizadas;
         this.aceite = x.aceite;
         this.entregues = x.entregues;
-
-
-
     }
 
     public void addLoja(Loja l) {
