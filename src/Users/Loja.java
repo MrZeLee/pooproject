@@ -1,10 +1,11 @@
 package Users;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import Base.Basic.Coordenadas;
 
-public class Loja {
+public class Loja implements Serializable{
     private String codLoja;
     private String nomeLoja;
     private Coordenadas gps;

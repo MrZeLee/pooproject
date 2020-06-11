@@ -1,8 +1,9 @@
 package Base.Encomenda;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Aceite implements Comparable{
+public class Aceite implements Comparable<Aceite>, Serializable{
     String codEncomenda;
 
     public Aceite() {
@@ -61,7 +62,7 @@ public class Aceite implements Comparable{
     }
 
     @Override
-    public int compareTo(Object o) {
-        return this.getCodEncomenda().compareTo(((Aceite) o).getCodEncomenda());
+    public int compareTo(Aceite o) {
+        return this.getCodEncomenda().compareTo(o.getCodEncomenda());
     }
 }

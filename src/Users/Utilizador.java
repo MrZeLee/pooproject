@@ -1,5 +1,6 @@
 package Users;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.TreeSet;
 
@@ -7,7 +8,7 @@ import Base.Basic.Coordenadas;
 import Base.Encomenda.Aceite;
 import Base.Encomenda.Encomenda;
 
-public class Utilizador {
+public class Utilizador implements Serializable{
     private String codUtilizador;
     private String nome;
     private String email;

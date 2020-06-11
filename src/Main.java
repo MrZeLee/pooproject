@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 import javax.swing.SwingUtilities;
 
 import MVC.Model.Model;
@@ -14,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
         Model model = new Model();
         int option = -1;
-        String[] mainOptions = { "Menu", "Utilizador", "Loja", "Voluntario", "Transportadora" };
+        String[] mainOptions = { "Menu", "Utilizador", "Loja", "Voluntario", "Transportadora", "Top10EmpresasKm", "Top10Utilizadores" };
         Menu m = new Menu(mainOptions);
         //Controller controller = null;
 
@@ -52,6 +50,16 @@ public class Main {
                             View viewT = new View(controller);
                             viewT.run();
                              break;
+                         case 5:
+                            for (String string : model.top10Empresas()) {
+                                System.out.println(string);
+                            }
+                            break;
+                        case 6:
+                            for (String string : model.top10Utilizadores()) {
+                                System.out.println(string);
+                            }
+                            break;
                          default:
                             System.out.println("No Valid Input Given!");
                              break;

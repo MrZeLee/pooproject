@@ -1,12 +1,13 @@
 package Users;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import Base.Basic.Coordenadas;
 
-public class Voluntario {
+public class Voluntario implements Serializable{
     private String codVoluntario;
     private String nome;
     private Coordenadas gps;

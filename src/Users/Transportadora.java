@@ -1,5 +1,6 @@
 package Users;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -9,7 +10,7 @@ import Base.Basic.Coordenadas;
 import Base.Encomenda.Aceite;
 import Base.Encomenda.Encomenda;
 
-public class Transportadora {
+public class Transportadora implements Serializable{
     private String codEmpresa;
     private String password;
     private String nomeEmpresa;
@@ -171,6 +172,11 @@ public class Transportadora {
         this.kmFeitos += kmFeitos;
     }
 
+    //não mexe com Loka l ou Utilizador u
+    public void addKmFeitos(final Loja l, final Utilizador u) {
+        this.kmFeitos += this.distancia(l, u);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -220,6 +226,13 @@ public class Transportadora {
         list.add(l.getGps());
         list.add(u.getGps());
         return this.custo(this.gps.distanceSequencial(list));
+    }
+
+    public double distancia(Loja l, Utilizador u) {
+        List<Coordenadas> list = new ArrayList<>();
+        list.add(l.getGps());
+        list.add(u.getGps());
+        return this.gps.distanceSequencial(list);
     }
 
     public double custo(Loja l, Utilizador u, Encomenda e) {

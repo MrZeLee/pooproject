@@ -1,11 +1,12 @@
 package Base.Basic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-public class Coordenadas {
+public class Coordenadas implements Serializable{
     private double latitude;
     private double longitude;
 

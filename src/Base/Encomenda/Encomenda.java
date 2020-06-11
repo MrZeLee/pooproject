@@ -1,5 +1,6 @@
 package Base.Encomenda;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -11,7 +12,7 @@ import MVC.Model.Model;
  * Encomenda
  */
 
-public class Encomenda implements Comparable, Comparator<Encomenda> {
+public class Encomenda implements Comparable, Comparator<Encomenda>, Serializable {
     private String codEncomenda;
     private String codUtilizador;
     private String codLoja;
