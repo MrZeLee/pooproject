@@ -1,7 +1,9 @@
 package MVC.Model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -14,7 +16,7 @@ import Users.Transportadora;
 import Users.Utilizador;
 import Users.Voluntario;
 
-public class Model{
+public class Model implements Serializable{
     private TreeMap<String,Loja> lojas = new TreeMap<String,Loja>();
     private TreeMap<String,Transportadora> transportadoras = new TreeMap<String,Transportadora>();
     private TreeMap<String,Utilizador> utilizadores = new TreeMap<String,Utilizador>();
@@ -76,6 +78,12 @@ public class Model{
     public void addEntregues(Aceite e) {
         this.aceite.remove(e);
         this.entregues.add(e.clone());
+        Encomenda x = this.encomendas.get(e.getCodEncomenda());
+        Loja l = this.lojas.get(x.getCodLoja());
+        Utilizador u = this.utilizadores.get(x.getCodUtilizador());
+        Transportadora t = this.transportadoras.get(x.getCodTransportador());
+        t.addKmFeitos(l, u);
+        t.addEncomendaFeitas(e);
     }
 
     public void addAceiteLog(Aceite e) {
@@ -281,6 +289,14 @@ public class Model{
         return t.custo(l, u, e) + l.tempo() * 0.5;
     }
 
+    public double distancia(String encomenda) {
+        Encomenda e = this.encomendas.get(encomenda);
+        Utilizador u = this.utilizadores.get(e.getCodUtilizador());
+        Transportadora t = this.transportadoras.get(e.getCodTransportador());
+        Loja l = this.lojas.get(e.getCodLoja());
+        return t.distancia(l, u);
+    }
+
     public Pair<List<String>,List<String>> getEncomendasTransportadora(String codTransportadora) {
         Pair<List<String>,List<String>> ret = new Pair<>();
         List<String> first = new ArrayList<>();
@@ -334,6 +350,67 @@ public class Model{
 
     public int toggleVoluntario(String codvoluntario) {
         return (this.voluntarios.get(codvoluntario).toogleOn() ? 1 : 0);
+    }
+    
+    public double totalFaturado(String transportadora, LocalDateTime antes, LocalDateTime depois) {
+        double ret = 0.0;
+        double buf;
+        for (Aceite x : this.transportadoras.get(transportadora).getEncomendasFeitas()) {
+            Encomenda e = this.encomendas.get(x.getCodEncomenda());
+            LocalDateTime receive = e.getReceived();
+            if(receive.isAfter(antes) && receive.isBefore(depois)) {
+                buf = e.getCusto();
+                ret += (buf >= 0 ? buf : 0);
+            }
+        }
+        return ret;
+    }
+
+    //QUERIES
+    public List<String> top10Empresas() {
+        TreeSet<Transportadora> ret = new TreeSet<>(new Comparator<Transportadora>() {
+
+			@Override
+			public int compare(Transportadora o1, Transportadora o2) {
+                int ret = Double.compare(Double.valueOf(o1.getKmFeitos()), Double.valueOf(o2.getKmFeitos()));
+                if(ret == 0) ret = 1;
+                return ret;
+			}
+        });
+        for (Transportadora transportadora : this.transportadoras.values()) {
+            ret.add(transportadora);
+        }
+        List<String> rets = new ArrayList<>();
+        int i = 0;
+        for (Transportadora transportadora : ret) {
+            if(i == 10) break;
+            i++;
+            rets.add(transportadora.getNomeEmpresa() + " - " + transportadora.getKmFeitos());
+        }
+        return rets;
+    }
+
+    public List<String> top10Utilizadores() {
+        TreeSet<Utilizador> ret = new TreeSet<>(new Comparator<Utilizador>() {
+
+			@Override
+			public int compare(Utilizador o1, Utilizador o2) {
+                int ret = Integer.compare(o1.getEncomendasFeitas().size(), o2.getEncomendasFeitas().size());
+                if(ret == 0) ret = 1;
+                return ret;
+			}
+        });
+        for (Utilizador utilizador : this.utilizadores.values()) {
+            ret.add(utilizador);
+        }
+        List<String> rets = new ArrayList<>();
+        int i = 0;
+        for (Utilizador utilizador : ret) {
+            if(i == 10) break;
+            i++;
+            rets.add(utilizador.getNome() + " - " + utilizador.getEncomendasFeitas().size() + " encomendas");
+        }
+        return rets;
     }
 
 }

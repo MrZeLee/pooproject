@@ -1,5 +1,7 @@
 package MVC.Controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +26,8 @@ public class ControllerTransportadora extends Controller{
     private final String[] raio = {"Raio"};
     private final String[] nomeRegister = {"Nome(Register)"};
     private final String[] passwordErrada = {"Password Errada"};
-    private final String[][] loginSucess = {{"Menu Transportadora", "Toogle On", "Encomenda Preço", "Entregar"},
-                                            {"Menu Transportadora", "Toogle Off", "Encomenda Preço", "Entregar"}};
+    private final String[][] loginSucess = {{"Menu Transportadora", "Toogle On", "Encomenda Preço", "Entregar", "Faturado Periodo"},
+                                            {"Menu Transportadora", "Toogle Off", "Encomenda Preço", "Entregar", "Faturado Periodo"}};
 
     private final String[] quit = {"quit"};
     private int on = 0;
@@ -257,6 +259,9 @@ public class ControllerTransportadora extends Controller{
                         }
                         setScreen(list1);
                         break;
+                    case "4":
+                        setScreen(new Menu("Periodo_(2007-12-03T10:15:30/2007-12-03T10:16:30)"));
+                        break;
                     case "0":
                         transportadora = "";
                         setScreen(this.getLogin());
@@ -320,6 +325,28 @@ public class ControllerTransportadora extends Controller{
                     cache.clear();
                     this.setScreen(loginSucess[this.on]);
                 }
+                break;
+            case "Periodo":
+                if(campos.length == 1) {
+                    break;
+                }
+                if(campos[1].equals("0")) {
+                    this.setScreen(loginSucess[this.on]);
+                    cache.clear();
+                }
+                else {
+                    try {
+                        String[] periodos = campos[1].split("/");
+                        LocalDateTime antes = LocalDateTime.parse(periodos[0]);
+                        LocalDateTime depois = LocalDateTime.parse(periodos[1]);
+                        this.setScreen(new Menu("Preço _ " + this.getModel().totalFaturado(transportadora, antes, depois)));
+                    } catch (DateTimeParseException e) {
+                    }
+                }
+                break;
+            case "Preço ":
+                cache.clear();
+                setScreen(loginSucess[this.on]);
                 break;
         }
         return;
