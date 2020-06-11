@@ -237,15 +237,15 @@ public class Model{
     }
 
     public int getQueueLoja(String codLoja){
-        int ret = 0;
-        try {
-                Loja newloja = this.lojas.get(codLoja);
-                ret = newloja.getQueue();
-        }
-        catch (Exception e) {
-            System.out.println("Loja Does Not Exist");
-        }
-        return ret;
+        return(this.lojas.get(codLoja).getQueue());
+    }
+
+	public boolean containsLoja(String loja) {
+		return this.lojas.containsKey(loja);
+    }
+    
+    public boolean passwordLoja(String loja, String pass) {
+        return this.lojas.get(loja).getPassword().equals(pass);
     }
     
     //TRANSPORTADORA
