@@ -109,6 +109,7 @@ public class Logparser {
         v.setRaio(Double.parseDouble(campos[4]));
         v.setLivre(false);
         v.setGps(xy);
+        v.setPassword("admin");
         return v;
     }
 
